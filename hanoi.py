@@ -15,11 +15,23 @@ def diskAmount(gameboard, nbTower):
         # works except value of tower = 3 because 3 zeros in array when empty
         return len(gameboard[nbTower])
 
+def firstElem(gameboard, nbTower):# FONCTION DISQUE_SUPERIEUR
+    if nbTower >= 0 and nbTower <= 2: # check towerNb is correct
+        for i in gameboard:
+            print(i)
+            firstElem = i[0] #firstElem is simply on index 0
+            return firstElem
+    else:
+        return -1
+
+def checkInput(Alpha):
+    return Alpha.isspace()
+
 def diskPosition(gameboard, numDisk):
-    pos = 0
-    pos = gameboard.index(numDisk)
-    print(pos)
-    return pos
+    for i in range(len(gameboard)):
+        for j in range(len(gameboard)):
+            if gameboard[i][j] == numDisk:
+                return i
 
     #for i in range(len(gameboard)):
     #    print(gameboard[i])
@@ -38,9 +50,13 @@ def victoryCondition(gameboard, n):
     return 0
 
 def isInList(gameboard, elem):
-    i = 0
-    while i < len(gameboard):
-        return elem in gameboard
+    if elem <= 0 or elem > len(gameboard):
+        return False
+    else:
+        for i in range(len(gameboard)):
+            if elem in gameboard[i]:
+                return True
+        return False
 
 def isEmpty(nbTower):
     if nbTower >= 0 and nbTower <= 2:
@@ -55,17 +71,10 @@ def lastElem(gameboard, nbTower):
     else:
         return -1
 
-def firstElem(gameboard, nbTower):# FONCTION DISQUE_SUPERIEUR
-    if nbTower >= 0 and nbTower <= 2: # check towerNb is correct
-        for i in gameboard:
-            firstElem = i[0] #firstElem is simply on index 0
-            return firstElem
-    else:
-        return -1
-
 def diskPos(gameboard,f):
     if isInList(gameboard, f) == True:
         g = diskPosition(gameboard, f)
+        print(g)
         print('Le disque', f,'est situe sur la tour ', g)
     else:
         return -1
@@ -84,7 +93,21 @@ def main():
         e = diskAmount(gameboard, b)
         print('La tour', b,'contient', e,'disques')
         f = int(input('Quel disque cherchez vous? '))
-        diskPos(gameboard,f)
+        z = True
+        while z:
+            if f <= 0:
+                print('disque trop petit')
+                f = int(input('Quel disque cherchez vous? '))
+            elif f > len(gameboard):
+                print('disque trop grand')
+                f = int(input('Quel disque cherchez vous? '))
+            else:
+                z = False
+        g = diskPosition(gameboard, f)
+        #g = diskPos(gameboard, f))
+
+        print('Le disque', f,'est situe sur la tour ', g)
+        print(gameboard)
         i = False
         #game()
 
