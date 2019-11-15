@@ -34,7 +34,6 @@ def diskPos(gameboard,f):
             z = False
     if isInList(gameboard, f) == True:
         g = diskPosition(gameboard, f)
-        print(g)
         print('Le disque', f,'est situe sur la tour', g)
     else:
         return -1
@@ -52,13 +51,14 @@ def firstElem(gameboard, nbTower):# FONCTION DISQUE_SUPERIEUR
     if nbTower >= 0 and nbTower <= 2: # check towerNb is correct
         for i in gameboard:
             lastElem = i[0] #lastElem is the 1st element starting from the end
-            return lastElem
+        return lastElem
     return -1
 
 def lastElem(gameboard, nbTower):
     if nbTower >= 0 and nbTower <= 2: # check towerNb is correct
-        for i in gameboard:
-            lastElem = i[-1] #lastElem is the 1st element starting from the end
+        for i in range(len(nbTower)):
+            for j in range(len(gameboard)):
+                lastElem = i[-1] #lastElem is the 1st element starting from the end
             return lastElem
     else:
         return -1
