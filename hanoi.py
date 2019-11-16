@@ -1,3 +1,5 @@
+import turtle
+
 def init(n):
     t = 3 # tower constant
     a = [[] for i in range(t)] # 2d array generation
@@ -16,73 +18,73 @@ def diskAmount(gameboard, nbTower):
         return len(gameboard[nbTower])
 
 def diskPosition(gameboard, numDisk):
-    for i in range(len(gameboard)):
-        for j in range(len(gameboard[i])):
-            if gameboard[i][j] == numDisk:
-                return i
+    for i in gameboard:
+        if len(i) >= 0:
+            if numDisk in i:
+                return gameboard.index(i)
+    return -1
 
-def diskPos(gameboard,f):
+def diskPos(gameboard, f, a):
     z = True
     while z:
         if f <= 0:
             print('disque trop petit')
             f = int(input('Quel disque cherchez vous? '))
-        elif f > (len(gameboard)+1):
-            print('disque trop grand')
-            f = int(input('Quel disque cherchez vous? '))
-        else:
-            z = False
-    if isInList(gameboard, f) == True:
+        z = False
+    if isInList(gameboard, f, a) == True:
         g = diskPosition(gameboard, f)
         print('Le disque', f,'est situe sur la tour', g)
     else:
         return -1
 
-def movement(gameboard, nt1, nt2):
-    return 0 #allowMove
+def checkMove(gameboard, nt1, nt2):
+    x = False
+    while x:
+        for i in gameboard:
+            for j in i:
+                
+    return False #allowMove
 
-def victoryCondition(gameboard, n):
+def checkVictory(gameboard, n):
     return 0
 
 ## EXTRA FUNCTIONS
 
-
 def firstElem(gameboard, nbTower):# FONCTION DISQUE_SUPERIEUR
     if nbTower >= 0 and nbTower <= 2: # check towerNb is correct
-        for i in gameboard:
-            lastElem = i[0] #lastElem is the 1st element starting from the end
-        return lastElem
+        if isEmpty(gameboard, nbTower) == True:
+            return 0
+        return gameboard[nbTower][0] #lastElem is the 1st element starting from the end
     return -1
 
 def lastElem(gameboard, nbTower):
     if nbTower >= 0 and nbTower <= 2: # check towerNb is correct
-        for i in range(len(nbTower)):
-            for j in range(len(gameboard)):
-                lastElem = i[-1] #lastElem is the 1st element starting from the end
-            return lastElem
-    else:
-        return -1
+        if isEmpty(gameboard, nbTower) == True:
+            return 0
+        return gameboard[nbTower][-1]
+    return -1
 
 def checkInput(Alpha):
     return Alpha.isspace()
 
-def isEmpty(nbTower):
+def isEmpty(gameboard, nbTower):
     if nbTower >= 0 and nbTower <= 2:
         for i in gameboard:
-            return 0
+            if len(gameboard[nbTower]) == 0:
+                return True
+        return False
+    return -1
 
-def isInList(gameboard, elem):
-    if elem <= 0 or elem > len(gameboard):
+def isInList(gameboard, elem, n):
+    if elem <= 0 or elem > n:
         return False
     else:
-        for i in range(len(gameboard)):
-            if elem in gameboard[i]:
+        for i in gameboard:
+            if elem in i:
                 return True
         return False
 
-
 ## MAIN FUNCTION
-
 
 def main():
     i = True
@@ -99,7 +101,7 @@ def main():
         e = diskAmount(gameboard, b)
         print('La tour', b,'contient', e,'disques')
         f = int(input('Quel disque cherchez vous? '))
-        diskPos(gameboard, f)
+        diskPos(gameboard, f, a)
         #g = diskPosition(gameboard, f)
         #g = diskPos(gameboard, f))
         #print('Le disque', f,'est situe sur la tour ', g)
@@ -111,7 +113,6 @@ def main():
         #   process_input()
         #   update()
         #   draw()
-        #
 
 def game():
     i = True
