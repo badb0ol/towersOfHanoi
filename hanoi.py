@@ -38,15 +38,33 @@ def diskPos(gameboard, f, a):
         return -1
 
 def checkMove(gameboard, nt1, nt2):
-    x = False
-    while x:
-        for i in gameboard:
-            for j in i:
-
-    return False #allowMove
+    #if isEmpty(gameboard, nt1) == False:
+    #    if isEmpty(gameboard, nt2) == True:
+    #        return True
+    #    elif firstElem(gameboard, nt2) > firstElem(gameboard, nt1):
+    #        return True
+    #return False
+    return (isEmpty(gameboard, nt1) == False and (isEmpty(gameboard, nt2) == True or (firstElem(gameboard, nt2) > firstElem(gameboard, nt1))))
 
 def checkVictory(gameboard, n):
-    return 0
+    #moveCount = (2**n)+1
+    if isEmpty(gameboard, 0) == True and isEmpty(gameboard, 1) == True:
+        if firstElem(gameboard, 2) == n and lastElem(gameboard, 2) == 1:
+            if diskAmount(gameboard, 2) == n
+            return True
+    else:
+        return False
+    #if n%2 == 0:
+    #    while i:
+    #        if checkMove(gameboard, )
+    #        checkMove(gameboard, 0, 1)
+    #        checkMove(gameboard, 0, 2) or checkMove(gameboard, 2, 0)
+    #        checkMove(gameboard, 1, 2)
+    #else:
+    #    while i:
+    #        checkMove(gameboard, 0, 2)
+    #        checkMove(gameboard, 0, 1)
+    #        checkMove(gameboard, 1, 2)
 
 ## EXTRA FUNCTIONS
 
@@ -94,7 +112,6 @@ def main():
         print('\n\n\t\tBienvenue dans les Tours de Hanoi!')
         a = int(input('\nCombien de disques? '))
         gameboard = init(a)
-        print(gameboard)
         b = int(input('Quelle tour souhaitez vous checker (0, 1, 2)? '))
         c = firstElem(gameboard, b)
         print('La tour', b,'a pour disque superieur:', c)
@@ -107,9 +124,12 @@ def main():
         #g = diskPosition(gameboard, f)
         #g = diskPos(gameboard, f))
         #print('Le disque', f,'est situe sur la tour ', g)
+        t1 = int(input('Choisir 1ere tour: '))
+        t2 = int(input('Choisir 2eme tour: '))
+        print(checkMove(gameboard, t1, t2))
+        print(checkVictory(gameboard, a))
         print(gameboard)
         i = False
-
         # i = True
         # while i:
         #   process_input()
