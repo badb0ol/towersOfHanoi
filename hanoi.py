@@ -24,14 +24,14 @@ def diskPosition(gameboard, numDisk):
                 return gameboard.index(i)
     return -1
 
-def diskPos(gameboard, f, a):
+def diskPos(gameboard, f, n):
     z = True
     while z:
         if f <= 0:
             print('disque trop petit')
             f = int(input('Quel disque cherchez vous? '))
         z = False
-    if isInList(gameboard, f, a) == True:
+    if isInList(gameboard, f, n) == True:
         g = diskPosition(gameboard, f)
         print('Le disque', f,'est situe sur la tour', g)
     else:
@@ -50,10 +50,9 @@ def checkVictory(gameboard, n):
     #moveCount = (2**n)+1
     if isEmpty(gameboard, 0) == True and isEmpty(gameboard, 1) == True:
         if firstElem(gameboard, 2) == n and lastElem(gameboard, 2) == 1:
-            if diskAmount(gameboard, 2) == n
-            return True
-    else:
-        return False
+            if diskAmount(gameboard, 2) == n:
+                return True
+    return False
     #if n%2 == 0:
     #    while i:
     #        if checkMove(gameboard, )
@@ -104,6 +103,66 @@ def isInList(gameboard, elem, n):
 
 ## DRAWING FUNCTIONS
 
+def drawBoard(n):
+    return 0
+
+def drawDisk(nDisk, gameboard, n):
+    return 0
+
+def eraseDisk(nDisk, gameboard, n):
+    return 0
+
+def drawConfig(gameboard, n):
+    return 0
+
+def eraseAll(gameboard, n):
+    return 0
+
+## MOVE FUNCTIONS
+
+def readCoords(gameboard):
+    i = True
+    t1 = int(input('Choisir 1ere tour: '))
+    t2 = int(input('Choisir 2eme tour: '))
+    while i:
+        if isEmpty(gameboard, t1) == True:
+            print('1ere tour vide')
+            t1 = int(input('Choisir 1ere tour: '))
+        elif t1 > 2 or t2 < 0:
+            t1 = int(input('Tour 1 entrée non existante.\nChoisir 1ere tour: '))
+        elif t2 > 2 or t2 < 0:
+            t2 = int(input('Tour 2 entrée non existante.\nChoisir 2eme tour: '))
+        else:
+            if checkMove(gameboard, t1, t2) == True:
+                i = False
+    return t1, t2
+
+def playTurn(gameboard, n):
+    t1, t2 = readCoords(gameboard)
+    return 0
+
+def gameLoop(gameboard, n):
+    return 0
+
+## CANCEL HITS
+
+def lastHit():
+    return 0
+
+def cancelLastHit():
+    return 0
+
+## GAME FILES
+
+def save():
+    return 0
+
+def readScores():
+    return 0
+
+def displayScores():
+    return 0
+
 ## MAIN FUNCTION
 
 def main():
@@ -129,6 +188,8 @@ def main():
         print(checkMove(gameboard, t1, t2))
         print(checkVictory(gameboard, a))
         print(gameboard)
+        print(readCoords(gameboard))
+        #print(playTurn(gameboard, a))
         i = False
         # i = True
         # while i:
