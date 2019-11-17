@@ -104,6 +104,7 @@ def isInList(gameboard, elem, n):
 ## DRAWING FUNCTIONS
 
 def drawBoard(n):
+    boardSize = 30+80+(40+(30*(n-1))) # 10px towers, gap of 20px between towers,
     return 0
 
 def drawDisk(nDisk, gameboard, n):
