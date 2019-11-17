@@ -42,7 +42,7 @@ def checkMove(gameboard, nt1, nt2):
     while x:
         for i in gameboard:
             for j in i:
-                
+
     return False #allowMove
 
 def checkVictory(gameboard, n):
@@ -83,6 +83,8 @@ def isInList(gameboard, elem, n):
             if elem in i:
                 return True
         return False
+
+## DRAWING FUNCTIONS
 
 ## MAIN FUNCTION
 
