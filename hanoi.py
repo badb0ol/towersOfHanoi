@@ -1,5 +1,7 @@
 import turtle
 
+## IMPORTANT VARIABLES FOR DRAWING
+
 def init(n):
     t = 3 # tower constant
     a = [[] for i in range(t)] # 2d array generation
@@ -104,11 +106,115 @@ def isInList(gameboard, elem, n):
 ## DRAWING FUNCTIONS
 
 def drawBoard(n):
-    boardSize = 30+80+(40+(30*(n-1))) # 10px towers, gap of 20px between towers,
-    return 0
+    boardSize = 30+80+(3*(40+(30*(n-1))))# 10px towers, gap of 20px between towers, biggestDisk = 40+(30*n-1)
+    originX = (-100)-(30*n)
+    originY = (-50)-(20*n)
+    tHeight = (20*n)+20
+    t = turtle.Turtle()
+    t.penup()
+    t.goto(originX,originY)
+    t.pendown()
+    i = 0
+    while i < 2:
+        t.forward(boardSize)
+        t.left(90)
+        t.forward(20)
+        t.left(90)
+        i += 1
+    t1 = (boardSize/4)
+    t2 = (boardSize/2)
+    t3 = ((boardSize/4)*3)
+    t.penup()
+    t.goto(originX+t1,originY+20) #goto tower 1
+    t.pendown()
+
+    t.forward(5)            #tower draw
+    t.left(90)
+    t.forward(tHeight)
+    t.left(90)
+    t.forward(10)
+    t.left(90)
+    t.forward(tHeight)
+    t.left(90)
+
+    t.penup()
+    t.goto(originX+t2,originY+20) #goto tower 2
+    t.pendown()
+
+    t.forward(5)            #tower draw
+    t.left(90)
+    t.forward(tHeight)
+    t.left(90)
+    t.forward(10)
+    t.left(90)
+    t.forward(tHeight)
+    t.left(90)
+
+    t.penup()
+    t.goto(originX+t3,originY+20) #goto tower 3
+    t.pendown()
+
+    t.forward(5)            #tower draw
+    t.left(90)
+    t.forward(tHeight)
+    t.left(90)
+    t.forward(10)
+    t.left(90)
+    t.forward(tHeight)
+    t.left(90)
+    return t1, t2, t3
 
 def drawDisk(nDisk, gameboard, n):
-    return 0
+    t = turtle.Turtle()
+    boardSize = 30+80+(3*(40+(30*(n-1))))
+    t1 = (boardSize/4)
+    t2 = (boardSize/2)
+    t3 = ((boardSize/4)*3)
+    diskSize = 40+(30*(nDisk-1))
+    originX = (-100)-(30*n)
+    originY = (-50)-(20*n)
+    tHeight = (20*n)+20
+    Pos = diskPosition(gameboard, nDisk)
+    print(Pos)
+    if Pos == 0:
+        t.penup()
+        t.goto(originX+t1,originY+20) #goto tower 1
+        t.pendown()
+        t.forward(diskSize/2)
+        t.left(90)
+        t.forward(20)
+        t.left(90)
+        t.forward(diskSize)
+        t.left(90)
+        t.forward(20)
+        t.left(90)
+        t.left(diskSize/2)
+    elif Pos == 1:
+        t.penup()
+        t.goto(originX+t2,originY+20) #goto tower 2
+        t.pendown()
+        t.forward(diskSize/2)
+        t.left(90)
+        t.forward(20)
+        t.left(90)
+        t.forward(diskSize)
+        t.left(90)
+        t.forward(20)
+        t.left(90)
+        t.left(diskSize/2)
+    elif Pos == 2:
+        t.penup()
+        t.goto(originX+t3,originY+20) #goto tower 3
+        t.pendown()
+        t.forward(diskSize/2)
+        t.left(90)
+        t.forward(20)
+        t.left(90)
+        t.forward(diskSize)
+        t.left(90)
+        t.forward(20)
+        t.left(90)
+        t.left(diskSize/2)
 
 def eraseDisk(nDisk, gameboard, n):
     return 0
@@ -190,6 +296,14 @@ def main():
         print(checkVictory(gameboard, a))
         print(gameboard)
         print(readCoords(gameboard))
+        drawBoard(a)
+        d1 = int(input('Quel disque voulez vous placer? '))
+        drawDisk(d1 ,gameboard, a)
+        d2 = int(input('Quel disque voulez vous placer? '))
+        drawDisk(d2 ,gameboard, a)
+        d3 = int(input('Quel disque voulez vous placer? '))
+        drawDisk(d3 ,gameboard, a)
+        turtle.done()
         #print(playTurn(gameboard, a))
         i = False
         # i = True
