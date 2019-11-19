@@ -16,7 +16,6 @@ def diskAmount(gameboard, nbTower):
     if nbTower > 2 or nbTower < 0:
         return -1
     else:
-        # works except value of tower = 3 because 3 zeros in array when empty
         return len(gameboard[nbTower])
 
 def diskPosition(gameboard, numDisk):
@@ -74,6 +73,15 @@ def firstElem(gameboard, nbTower):# FONCTION DISQUE_SUPERIEUR
         if isEmpty(gameboard, nbTower) == True:
             return 0
         return gameboard[nbTower][0] #lastElem is the 1st element starting from the end
+    return -1
+
+def diskPosInList(gameboard, nDisk):
+    nTower = diskPosition(gameboard, nDisk)
+    for towerIndex, tower in enumerate(gameboard):
+        if len(tower) >= 0:
+            for diskIndex, disk in enumerate(tower):
+                if nDisk == disk:
+                    return diskIndex
     return -1
 
 def lastElem(gameboard, nbTower):
@@ -174,11 +182,13 @@ def drawDisk(nDisk, gameboard, n):
     originX = (-100)-(30*n)
     originY = (-50)-(20*n)
     tHeight = (20*n)+20
-    Pos = diskPosition(gameboard, nDisk)
-    print(Pos)
-    if Pos == 0:
+    dPos = diskPosition(gameboard, nDisk)
+    g = diskPosInList(gameboard, nDisk)
+    # get index of elem in the sublist and index of arrival
+    print(dPos)
+    if dPos == 0: # if destination tower = 1 and is empty
         t.penup()
-        t.goto(originX+t1,originY+20) #goto tower 1
+        t.goto(originX+t1,originY+20+(g*20)) #goto tower 1
         t.pendown()
         t.forward(diskSize/2)
         t.left(90)
@@ -189,9 +199,9 @@ def drawDisk(nDisk, gameboard, n):
         t.forward(20)
         t.left(90)
         t.left(diskSize/2)
-    elif Pos == 1:
+    elif dPos == 1: # if destination tower = 2 and is empty
         t.penup()
-        t.goto(originX+t2,originY+20) #goto tower 2
+        t.goto(originX+t2,originY+20+(g*20)) #goto tower 1
         t.pendown()
         t.forward(diskSize/2)
         t.left(90)
@@ -202,9 +212,9 @@ def drawDisk(nDisk, gameboard, n):
         t.forward(20)
         t.left(90)
         t.left(diskSize/2)
-    elif Pos == 2:
+    elif dPos == 2: # if destination tower = 3 and is empty
         t.penup()
-        t.goto(originX+t3,originY+20) #goto tower 3
+        t.goto(originX+t3,originY+20+(g*20)) #goto tower 1
         t.pendown()
         t.forward(diskSize/2)
         t.left(90)
@@ -278,6 +288,7 @@ def main():
         print('\n\n\t\tBienvenue dans les Tours de Hanoi!')
         a = int(input('\nCombien de disques? '))
         gameboard = init(a)
+
         b = int(input('Quelle tour souhaitez vous checker (0, 1, 2)? '))
         c = firstElem(gameboard, b)
         print('La tour', b,'a pour disque superieur:', c)
@@ -292,10 +303,17 @@ def main():
         #print('Le disque', f,'est situe sur la tour ', g)
         t1 = int(input('Choisir 1ere tour: '))
         t2 = int(input('Choisir 2eme tour: '))
-        print(checkMove(gameboard, t1, t2))
-        print(checkVictory(gameboard, a))
-        print(gameboard)
+        if checkMove(gameboard, t1, t2) == True:
+            print('This move is authorized')
+        else:
+            print('This move is not authorized')
+        if checkVictory(gameboard, a) == True:
+            print('Game over!')
+            i = False
+        else:
+            print('The game goes on!')
         print(readCoords(gameboard))
+
         drawBoard(a)
         d1 = int(input('Quel disque voulez vous placer? '))
         drawDisk(d1 ,gameboard, a)
@@ -303,7 +321,6 @@ def main():
         drawDisk(d2 ,gameboard, a)
         d3 = int(input('Quel disque voulez vous placer? '))
         drawDisk(d3 ,gameboard, a)
-        turtle.done()
         #print(playTurn(gameboard, a))
         i = False
         # i = True
@@ -324,3 +341,5 @@ def game():
             i = False
 
 main()
+turtle.hideturtle()
+turtle.done()
