@@ -119,6 +119,8 @@ def drawBoard(n):
     originY = (-50)-(20*n)
     tHeight = (20*n)+20
     t = turtle.Turtle()
+    turtle.ht()
+    t.speed(10)
     t.penup()
     t.goto(originX,originY)
     t.pendown()
@@ -174,6 +176,7 @@ def drawBoard(n):
 
 def drawDisk(nDisk, gameboard, n):
     t = turtle.Turtle()
+    t.speed(10)
     boardSize = 30+80+(3*(40+(30*(n-1))))
     t1 = (boardSize/4)
     t2 = (boardSize/2)
@@ -288,12 +291,14 @@ def main():
         print('\n\n\t\tBienvenue dans les Tours de Hanoi!')
         a = int(input('\nCombien de disques? '))
         gameboard = init(a)
-
+        drawBoard(a)
+        for j in range(a+1):
+            drawDisk(j, gameboard, a)
         b = int(input('Quelle tour souhaitez vous checker (0, 1, 2)? '))
         c = firstElem(gameboard, b)
-        print('La tour', b,'a pour disque superieur:', c)
+        print('La tour', b,'a pour disque inferieur:', c)
         d = lastElem(gameboard, b)
-        print('La tour', b,'a pour disque inferieur:', d)
+        print('La tour', b,'a pour disque superieur:', d)
         e = diskAmount(gameboard, b)
         print('La tour', b,'contient', e,'disques')
         f = int(input('Quel disque cherchez vous? '))
@@ -321,6 +326,7 @@ def main():
         drawDisk(d2 ,gameboard, a)
         d3 = int(input('Quel disque voulez vous placer? '))
         drawDisk(d3 ,gameboard, a)
+
         #print(playTurn(gameboard, a))
         i = False
         # i = True
