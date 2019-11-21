@@ -1,6 +1,11 @@
 import turtle
+import random
 
 ## IMPORTANT VARIABLES FOR DRAWING
+
+turtle.setup(width=1366, height=768, startx=30, starty=60)
+turtle.colormode(255)
+turtle.bgcolor(105,105,105)
 
 def init(n):
     t = 3 # tower constant
@@ -119,11 +124,17 @@ def drawBoard(n):
     originY = (-50)-(20*n)
     tHeight = (20*n)+20
     t = turtle.Turtle()
+    R = random.randint(0,255)
+    G = random.randint(0,255)
+    B = random.randint(0,255)
     turtle.ht()
     t.speed(10)
     t.penup()
     t.goto(originX,originY)
     t.pendown()
+    turtle.colormode(255)
+    t.fillcolor(R,G,B)
+    t.begin_fill()
     i = 0
     while i < 2:
         t.forward(boardSize)
@@ -131,6 +142,7 @@ def drawBoard(n):
         t.forward(20)
         t.left(90)
         i += 1
+    t.end_fill()
     t1 = (boardSize/4)
     t2 = (boardSize/2)
     t3 = ((boardSize/4)*3)
@@ -138,6 +150,8 @@ def drawBoard(n):
     t.goto(originX+t1,originY+20) #goto tower 1
     t.pendown()
 
+    t.fillcolor(R,G,B)
+    t.begin_fill()
     t.forward(5)            #tower draw
     t.left(90)
     t.forward(tHeight)
@@ -146,11 +160,14 @@ def drawBoard(n):
     t.left(90)
     t.forward(tHeight)
     t.left(90)
+    t.end_fill()
 
     t.penup()
     t.goto(originX+t2,originY+20) #goto tower 2
     t.pendown()
 
+    t.fillcolor(R,G,B)
+    t.begin_fill()
     t.forward(5)            #tower draw
     t.left(90)
     t.forward(tHeight)
@@ -159,11 +176,14 @@ def drawBoard(n):
     t.left(90)
     t.forward(tHeight)
     t.left(90)
+    t.end_fill()
 
     t.penup()
     t.goto(originX+t3,originY+20) #goto tower 3
     t.pendown()
 
+    t.fillcolor(R,G,B)
+    t.begin_fill()
     t.forward(5)            #tower draw
     t.left(90)
     t.forward(tHeight)
@@ -172,10 +192,17 @@ def drawBoard(n):
     t.left(90)
     t.forward(tHeight)
     t.left(90)
+    t.end_fill()
     return t1, t2, t3
 
 def drawDisk(nDisk, gameboard, n):
+    R = random.randint(0,255)
+    G = random.randint(0,255)
+    B = random.randint(0,255)
     t = turtle.Turtle()
+    turtle.colormode(255)
+    t.pencolor(R,G,B)
+    t.fillcolor(R,G,B)
     t.speed(10)
     boardSize = 30+80+(3*(40+(30*(n-1))))
     t1 = (boardSize/4)
@@ -193,6 +220,9 @@ def drawDisk(nDisk, gameboard, n):
         t.penup()
         t.goto(originX+t1,originY+20+(g*20)) #goto tower 1
         t.pendown()
+        t.pencolor(R,G,B)
+        t.fillcolor(R,G,B)
+        t.begin_fill()
         t.forward(diskSize/2)
         t.left(90)
         t.forward(20)
@@ -202,10 +232,14 @@ def drawDisk(nDisk, gameboard, n):
         t.forward(20)
         t.left(90)
         t.left(diskSize/2)
+        t.end_fill()
     elif dPos == 1: # if destination tower = 2 and is empty
         t.penup()
         t.goto(originX+t2,originY+20+(g*20)) #goto tower 1
         t.pendown()
+        t.pencolor(R,G,B)
+        t.fillcolor(R,G,B)
+        t.begin_fill()
         t.forward(diskSize/2)
         t.left(90)
         t.forward(20)
@@ -215,10 +249,14 @@ def drawDisk(nDisk, gameboard, n):
         t.forward(20)
         t.left(90)
         t.left(diskSize/2)
+        t.end_fill()
     elif dPos == 2: # if destination tower = 3 and is empty
         t.penup()
         t.goto(originX+t3,originY+20+(g*20)) #goto tower 1
         t.pendown()
+        t.pencolor(R,G,B)
+        t.fillcolor(R,G,B)
+        t.begin_fill()
         t.forward(diskSize/2)
         t.left(90)
         t.forward(20)
@@ -228,6 +266,7 @@ def drawDisk(nDisk, gameboard, n):
         t.forward(20)
         t.left(90)
         t.left(diskSize/2)
+        t.end_fill()
 
 def eraseDisk(nDisk, gameboard, n):
     return 0
@@ -288,10 +327,12 @@ def displayScores():
 def main():
     i = True
     while i:
+
         print('\n\n\t\tBienvenue dans les Tours de Hanoi!')
         a = int(input('\nCombien de disques? '))
         gameboard = init(a)
         drawBoard(a)
+        print(gameboard)
         for j in range(a+1):
             drawDisk(j, gameboard, a)
         b = int(input('Quelle tour souhaitez vous checker (0, 1, 2)? '))
@@ -318,14 +359,6 @@ def main():
         else:
             print('The game goes on!')
         print(readCoords(gameboard))
-
-        drawBoard(a)
-        d1 = int(input('Quel disque voulez vous placer? '))
-        drawDisk(d1 ,gameboard, a)
-        d2 = int(input('Quel disque voulez vous placer? '))
-        drawDisk(d2 ,gameboard, a)
-        d3 = int(input('Quel disque voulez vous placer? '))
-        drawDisk(d3 ,gameboard, a)
 
         #print(playTurn(gameboard, a))
         i = False
