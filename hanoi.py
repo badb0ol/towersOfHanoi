@@ -34,7 +34,7 @@ def diskPosition(gameboard, numDisk):
                 return gameboard.index(i)
     return -1
 
-def diskPos(gameboard, f, n):
+def diskPos(gameboard, f, n): # useless
     z = True
     while z:
         if f <= 0:
@@ -48,13 +48,7 @@ def diskPos(gameboard, f, n):
         return -1
 
 def checkMove(gameboard, nt1, nt2):
-    #if isEmpty(gameboard, nt1) == False:
-    #    if isEmpty(gameboard, nt2) == True:
-    #        return True
-    #    elif firstElem(gameboard, nt2) > firstElem(gameboard, nt1):
-    #        return True
-    #return False
-    return (isEmpty(gameboard, nt1) == False and (isEmpty(gameboard, nt2) == True or (lastElem(gameboard, nt2) > lastElem(gameboard, nt1))))
+    return (isEmpty(gameboard, nt1) == False and (lastElem(gameboard, nt2) > lastElem(gameboard, nt1))) or isEmpty(gameboard, nt2) == True
 
 def checkVictory(gameboard, n):
     #moveCount = (2**n)+1
@@ -72,7 +66,7 @@ def checkVictory(gameboard, n):
     #else:
     #    while i:
     #        checkMove(gameboard, 0, 2)
-    #        checkMove(gameboard, 0, 1)
+    #        checkMove(gameboard, 0, 1) or checkMove(gameboard, 1, 0)
     #        checkMove(gameboard, 1, 2)
 
 ## EXTRA FUNCTIONS
@@ -379,31 +373,39 @@ def readCoords(gameboard):
     t1 = int(input('Choisir 1ere tour: '))
     t2 = int(input('Choisir 2eme tour: '))
     while i:
-        if isEmpty(gameboard, t1) == True:
-            print('1ere tour vide')
-            t1 = int(input('Choisir 1ere tour: '))
-        elif t1 > 2 or t2 < 0:
-            t1 = int(input('Tour 1 entrée non existante.\nChoisir 1ere tour: '))
-        elif t2 > 2 or t2 < 0:
-            t2 = int(input('Tour 2 entrée non existante.\nChoisir 2eme tour: '))
+        if checkMove(gameboard, t1, t2) == True:
+            return t1, t2
         else:
-            if checkMove(gameboard, t1, t2) == True:
-                i = False
-    return t1, t2
+            t1 = int(input('Choix impossible\nChoisir 1ere tour: '))
+            t2 = int(input('Choisir 2eme tour: '))
+        #if isEmpty(gameboard, t1) == True:
+            #t1 = int(input('1ere tour vide.\nChoisir 1ere tour: '))
+            #t2 = int(input('Choisir 2eme tour: '))
+        #elif t1 > 2 or t1 < 0:
+            #t1 = int(input('Tour 1 entrée non existante.\nChoisir 1ere tour: '))
+            #t2 = int(input('Choisir 2eme tour: '))
+        #elif t2 > 2 or t2 < 0:
+            #t1 = int(input('Tour 2 entrée non existante.\nChoisir 1ere tour: '))
+            #t2 = int(input('Choisir 2eme tour: '))
+
 
 def playTurn(gameboard, n):
     t1, t2 = readCoords(gameboard)
     topT1 = lastElem(gameboard, t1)
     topT2 = lastElem(gameboard, t2)
-    if topT2 == 0 or topT2 > topT1:
+    if checkMove(gameboard, t1, t2) == True:
         eraseDisk(topT1, gameboard, n)
         gameboard[t1].pop()
-        drawDisk(topT1, gameboard, n,R,G,B)
+        drawDisk(topT1, gameboard, n, R,G,B)
         gameboard[t2].append(topT1)
+    else:
+        print('please try again')
+        t1, t2 = readCoords(gameboard)
     return gameboard
 
 def gameLoop(gameboard, n):
     i = True
+    moveCount = 0
     while i:
         drawBoard(n)
         drawConfig(gameboard, n, R,G,B)
@@ -411,15 +413,17 @@ def gameLoop(gameboard, n):
         over = checkVictory(gameboard, n)
         if over == True:
             print('Game over!')
-            save()
-            i = False
+            save(gameboard, n)
+            return moveCount
         else:
             drawBoard(n)
             drawConfig(gameboard, n, R,G,B)
             playTurn(gameboard, n)
             drawConfig(gameboard, n, R,G,B)
             drawBoard(n)
-        save()
+            moveCount += 1
+            over = checkVictory(gameboard, n)
+
 
 ## CANCEL HITS
 
@@ -431,11 +435,11 @@ def cancelLastHit():
 
 ## GAME FILES
 
-def save():
-    a = 0 #input('Enter your username: ')
-    b = 0
-    c = 0
-    scores = [('username1', 3, 7), ('username2', 4, 12)]
+def save(gameboard, n):
+    username = input('Enter your username: ')
+    diskCount = n
+    moveCount = gameLoop(gameboard, n)
+    scores = [(username, diskCount, moveCount)]
     with open('HighScores.txt', 'w') as f:
         for username, diskCount, moveCount in scores:
             f.write('Username: {0}, Disk Count: {1}, Move Count: {2}\n'.format(username, diskCount, moveCount))
@@ -482,14 +486,13 @@ def main():
             print('The game goes on!')
 
         #print(playTurn(gameboard, a))
-        i = False
         # i = True
         # while i:
         #   process_input()
         #   update()
         #   draw()
 
-def game():
+def playAgain():
     i = True
     while i:
         game()
@@ -499,6 +502,11 @@ def game():
         else:
             print('Thank you for playing!')
             i = False
+
+def goSolveYourself(gameboard):
+    return 0
+
+
 
 main()
 turtle.done()
