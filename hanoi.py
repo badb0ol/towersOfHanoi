@@ -7,6 +7,10 @@ turtle.setup(width=1366, height=768, startx=30, starty=60)
 turtle.colormode(255)
 turtle.bgcolor(105,105,105)
 
+R = random.randint(0,255)
+G = random.randint(0,255)
+B = random.randint(0,255)
+
 def init(n):
     t = 3 # tower constant
     a = [[] for i in range(t)] # 2d array generation
@@ -50,7 +54,7 @@ def checkMove(gameboard, nt1, nt2):
     #    elif firstElem(gameboard, nt2) > firstElem(gameboard, nt1):
     #        return True
     #return False
-    return (isEmpty(gameboard, nt1) == False and (isEmpty(gameboard, nt2) == True or (firstElem(gameboard, nt2) > firstElem(gameboard, nt1))))
+    return (isEmpty(gameboard, nt1) == False and (isEmpty(gameboard, nt2) == True or (lastElem(gameboard, nt2) > lastElem(gameboard, nt1))))
 
 def checkVictory(gameboard, n):
     #moveCount = (2**n)+1
@@ -73,11 +77,42 @@ def checkVictory(gameboard, n):
 
 ## EXTRA FUNCTIONS
 
+def initButton():
+    t = turtle.Turtle()
+    t.hideturtle()
+    t.fillcolor('white')
+    t.begin_fill()
+    for i in range(2):
+        t.forward(80)
+        t.left(90)
+        t.forward(30)
+        t.left(90)
+    t.end_fill()
+    t.penup()
+    t.goto(5,6)
+    t.pendown()
+    t.write('Initialize', font=('Arial',20,'normal'))
+
+def buttonClick(x, y):
+    if x > 2 and x < 81 and y > 9 and y > 27:
+        return 0
+
+def isClicked():
+    turtle.onscreenclick(buttonClick, 1)
+    turtle.listen()
+
 def firstElem(gameboard, nbTower):# FONCTION DISQUE_SUPERIEUR
     if nbTower >= 0 and nbTower <= 2: # check towerNb is correct
         if isEmpty(gameboard, nbTower) == True:
             return 0
         return gameboard[nbTower][0] #lastElem is the 1st element starting from the end
+    return -1
+
+def lastElem(gameboard, nbTower):
+    if nbTower >= 0 and nbTower <= 2: # check towerNb is correct
+        if isEmpty(gameboard, nbTower) == True:
+            return 0
+        return gameboard[nbTower][-1]
     return -1
 
 def diskPosInList(gameboard, nDisk):
@@ -87,13 +122,6 @@ def diskPosInList(gameboard, nDisk):
             for diskIndex, disk in enumerate(tower):
                 if nDisk == disk:
                     return diskIndex
-    return -1
-
-def lastElem(gameboard, nbTower):
-    if nbTower >= 0 and nbTower <= 2: # check towerNb is correct
-        if isEmpty(gameboard, nbTower) == True:
-            return 0
-        return gameboard[nbTower][-1]
     return -1
 
 def checkInput(Alpha):
@@ -119,16 +147,16 @@ def isInList(gameboard, elem, n):
 ## DRAWING FUNCTIONS
 
 def drawBoard(n):
+    R = random.randint(0,255)
+    G = random.randint(0,255)
+    B = random.randint(0,255)
     boardSize = 30+80+(3*(40+(30*(n-1))))# 10px towers, gap of 20px between towers, biggestDisk = 40+(30*n-1)
     originX = (-100)-(30*n)
     originY = (-50)-(20*n)
     tHeight = (20*n)+20
     t = turtle.Turtle()
-    R = random.randint(0,255)
-    G = random.randint(0,255)
-    B = random.randint(0,255)
-    turtle.ht()
-    t.speed(10)
+    t.hideturtle()
+    t.speed(15)
     t.penup()
     t.goto(originX,originY)
     t.pendown()
@@ -193,17 +221,13 @@ def drawBoard(n):
     t.forward(tHeight)
     t.left(90)
     t.end_fill()
-    return t1, t2, t3
 
-def drawDisk(nDisk, gameboard, n):
-    R = random.randint(0,255)
-    G = random.randint(0,255)
-    B = random.randint(0,255)
+def drawDisk(nDisk, gameboard, n, R,G,B):
     t = turtle.Turtle()
+    t.hideturtle()
     turtle.colormode(255)
-    t.pencolor(R,G,B)
     t.fillcolor(R,G,B)
-    t.speed(10)
+    t.speed(15)
     boardSize = 30+80+(3*(40+(30*(n-1))))
     t1 = (boardSize/4)
     t2 = (boardSize/2)
@@ -212,15 +236,14 @@ def drawDisk(nDisk, gameboard, n):
     originX = (-100)-(30*n)
     originY = (-50)-(20*n)
     tHeight = (20*n)+20
-    dPos = diskPosition(gameboard, nDisk)
-    g = diskPosInList(gameboard, nDisk)
+    dPos = diskPosition(gameboard, nDisk) #Position of disk by order of lists
+    g = diskPosInList(gameboard, nDisk) #Position of disk within its list
     # get index of elem in the sublist and index of arrival
-    print(dPos)
     if dPos == 0: # if destination tower = 1 and is empty
+        t.hideturtle()
         t.penup()
         t.goto(originX+t1,originY+20+(g*20)) #goto tower 1
         t.pendown()
-        t.pencolor(R,G,B)
         t.fillcolor(R,G,B)
         t.begin_fill()
         t.forward(diskSize/2)
@@ -234,10 +257,10 @@ def drawDisk(nDisk, gameboard, n):
         t.left(diskSize/2)
         t.end_fill()
     elif dPos == 1: # if destination tower = 2 and is empty
+        t.hideturtle()
         t.penup()
         t.goto(originX+t2,originY+20+(g*20)) #goto tower 1
         t.pendown()
-        t.pencolor(R,G,B)
         t.fillcolor(R,G,B)
         t.begin_fill()
         t.forward(diskSize/2)
@@ -251,10 +274,10 @@ def drawDisk(nDisk, gameboard, n):
         t.left(diskSize/2)
         t.end_fill()
     elif dPos == 2: # if destination tower = 3 and is empty
+        t.hideturtle()
         t.penup()
         t.goto(originX+t3,originY+20+(g*20)) #goto tower 1
         t.pendown()
-        t.pencolor(R,G,B)
         t.fillcolor(R,G,B)
         t.begin_fill()
         t.forward(diskSize/2)
@@ -269,13 +292,85 @@ def drawDisk(nDisk, gameboard, n):
         t.end_fill()
 
 def eraseDisk(nDisk, gameboard, n):
-    return 0
+        R = 105
+        G = 105
+        B = 105
+        t = turtle.Turtle()
+        turtle.colormode(255)
+        t.speed(10)
+        boardSize = 30+80+(3*(40+(30*(n-1))))
+        t1 = (boardSize/4)
+        t2 = (boardSize/2)
+        t3 = ((boardSize/4)*3)
+        diskSize = 40+(30*(nDisk-1))
+        originX = (-100)-(30*n)
+        originY = (-50)-(20*n)
+        tHeight = (20*n)+20
+        dPos = diskPosition(gameboard, nDisk)
+        g = diskPosInList(gameboard, nDisk)
+        # get index of elem in the sublist and index of arrival
+        if dPos == 0: # if destination tower = 1 and is empty
+            t.hideturtle()
+            t.penup()
+            t.goto(originX+t1,originY+20+(g*20)) #goto tower 1
+            t.pendown()
+            t.pencolor(R,G,B)
+            t.fillcolor(R,G,B)
+            t.begin_fill()
+            t.forward(diskSize/2)
+            t.left(90)
+            t.forward(20)
+            t.left(90)
+            t.forward(diskSize)
+            t.left(90)
+            t.forward(20)
+            t.left(90)
+            t.left(diskSize/2)
+            t.end_fill()
+        elif dPos == 1: # if destination tower = 2 and is empty
+            t.hideturtle()
+            t.penup()
+            t.goto(originX+t2,originY+20+(g*20)) #goto tower 1
+            t.pendown()
+            t.pencolor(R,G,B)
+            t.fillcolor(R,G,B)
+            t.begin_fill()
+            t.forward(diskSize/2)
+            t.left(90)
+            t.forward(20)
+            t.left(90)
+            t.forward(diskSize)
+            t.left(90)
+            t.forward(20)
+            t.left(90)
+            t.left(diskSize/2)
+            t.end_fill()
+        elif dPos == 2: # if destination tower = 3 and is empty
+            t.hideturtle()
+            t.penup()
+            t.goto(originX+t3,originY+20+(g*20)) #goto tower 1
+            t.pendown()
+            t.pencolor(R,G,B)
+            t.fillcolor(R,G,B)
+            t.begin_fill()
+            t.forward(diskSize/2)
+            t.left(90)
+            t.forward(20)
+            t.left(90)
+            t.forward(diskSize)
+            t.left(90)
+            t.forward(20)
+            t.left(90)
+            t.left(diskSize/2)
+            t.end_fill()
 
-def drawConfig(gameboard, n):
-    return 0
+def drawConfig(gameboard, n, R,G,B):
+    for i in range(n+1):
+        drawDisk(i, gameboard, n, R,G,B)
 
 def eraseAll(gameboard, n):
-    return 0
+    for i in range(n+1):
+        eraseDisk(i, gameboard, n)
 
 ## MOVE FUNCTIONS
 
@@ -298,10 +393,19 @@ def readCoords(gameboard):
 
 def playTurn(gameboard, n):
     t1, t2 = readCoords(gameboard)
-    return 0
+    topT1 = lastElem(gameboard, t1)
+    topT2 = lastElem(gameboard, t2)
+    if topT2 == 0 or topT2 > topT1:
+        eraseDisk(topT1, gameboard, n)
+        gameboard[t1].pop()
+        drawDisk(topT1, gameboard, n,R,G,B)
+        gameboard[t2].append(topT1)
+    return gameboard
 
 def gameLoop(gameboard, n):
-    return 0
+    while checkVictory():
+        return 0
+
 
 ## CANCEL HITS
 
@@ -314,7 +418,13 @@ def cancelLastHit():
 ## GAME FILES
 
 def save():
-    return 0
+    a = 0#input('Enter your username: ')
+    b = 0
+    c = 0
+    scores = [('username1', 3, 7), ('username2', 4, 12)]
+    with open('HighScores.txt', 'w') as f:
+        for username, diskCount, moveCount in scores:
+            f.write('Username: {0}, Disk Count: {1}, Move Count: {2}\n'.format(username, diskCount, moveCount))
 
 def readScores():
     return 0
@@ -327,14 +437,21 @@ def displayScores():
 def main():
     i = True
     while i:
-
         print('\n\n\t\tBienvenue dans les Tours de Hanoi!')
         a = int(input('\nCombien de disques? '))
         gameboard = init(a)
+        #initButton()
+        #if isClicked() == True:
         drawBoard(a)
-        print(gameboard)
-        for j in range(a+1):
-            drawDisk(j, gameboard, a)
+        drawConfig(gameboard, a, R,G,B)
+        #print(readCoords(gameboard))
+        print(playTurn(gameboard, a))
+        drawBoard(a)
+        drawConfig(gameboard, a,R,G,B)
+        print(playTurn(gameboard, a))
+        drawBoard(a)
+        drawConfig(gameboard, a,R,G,B)
+        save()
         b = int(input('Quelle tour souhaitez vous checker (0, 1, 2)? '))
         c = firstElem(gameboard, b)
         print('La tour', b,'a pour disque inferieur:', c)
@@ -344,6 +461,7 @@ def main():
         print('La tour', b,'contient', e,'disques')
         f = int(input('Quel disque cherchez vous? '))
         diskPos(gameboard, f, a)
+
         #g = diskPosition(gameboard, f)
         #g = diskPos(gameboard, f))
         #print('Le disque', f,'est situe sur la tour ', g)
@@ -358,7 +476,7 @@ def main():
             i = False
         else:
             print('The game goes on!')
-        print(readCoords(gameboard))
+
 
         #print(playTurn(gameboard, a))
         i = False
@@ -374,11 +492,10 @@ def game():
         game()
         playAgain = str(input('Souhaitez vous rejouer? y/n: '))
         if playAgain == "y":
-            continue
+            main()
         else:
             print('Thank you for playing!')
             i = False
 
 main()
-turtle.hideturtle()
 turtle.done()
