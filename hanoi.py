@@ -403,9 +403,23 @@ def playTurn(gameboard, n):
     return gameboard
 
 def gameLoop(gameboard, n):
-    while checkVictory():
-        return 0
-
+    i = True
+    while i:
+        drawBoard(n)
+        drawConfig(gameboard, n, R,G,B)
+        playTurn(gameboard, n)
+        over = checkVictory(gameboard, n)
+        if over == True:
+            print('Game over!')
+            save()
+            i = False
+        else:
+            drawBoard(n)
+            drawConfig(gameboard, n, R,G,B)
+            playTurn(gameboard, n)
+            drawConfig(gameboard, n, R,G,B)
+            drawBoard(n)
+        save()
 
 ## CANCEL HITS
 
@@ -418,7 +432,7 @@ def cancelLastHit():
 ## GAME FILES
 
 def save():
-    a = 0#input('Enter your username: ')
+    a = 0 #input('Enter your username: ')
     b = 0
     c = 0
     scores = [('username1', 3, 7), ('username2', 4, 12)]
@@ -440,18 +454,8 @@ def main():
         print('\n\n\t\tBienvenue dans les Tours de Hanoi!')
         a = int(input('\nCombien de disques? '))
         gameboard = init(a)
-        #initButton()
-        #if isClicked() == True:
-        drawBoard(a)
-        drawConfig(gameboard, a, R,G,B)
-        #print(readCoords(gameboard))
-        print(playTurn(gameboard, a))
-        drawBoard(a)
-        drawConfig(gameboard, a,R,G,B)
-        print(playTurn(gameboard, a))
-        drawBoard(a)
-        drawConfig(gameboard, a,R,G,B)
-        save()
+        gameLoop(gameboard, a)
+
         b = int(input('Quelle tour souhaitez vous checker (0, 1, 2)? '))
         c = firstElem(gameboard, b)
         print('La tour', b,'a pour disque inferieur:', c)
@@ -476,7 +480,6 @@ def main():
             i = False
         else:
             print('The game goes on!')
-
 
         #print(playTurn(gameboard, a))
         i = False
