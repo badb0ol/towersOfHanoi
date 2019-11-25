@@ -433,9 +433,9 @@ def eraseAll(gameboard, n):
 
 def readCoords(gameboard):
     i = True
-    t1 = int(input('Choisir 1ere tour: '))
-    t2 = int(input('Choisir 2eme tour: '))
     while i:
+        t1 = int(input('Choisir 1ere tour: '))
+        t2 = int(input('Choisir 2eme tour: '))
         if checkInput(t1) == True or checkInput(t2) == True: #or (checkInput(t1) == True and checkInput(t2) == True):
             t1 = int(input('Choix impossible\nChoisir 1ere tour: '))
             t2 = int(input('Choisir 2eme tour: '))
@@ -444,6 +444,17 @@ def readCoords(gameboard):
                 return t1, t2
             t1 = int(input('Choix impossible\nChoisir 1ere tour: '))
             t2 = int(input('Choisir 2eme tour: '))
+
+
+        #if checkMove(gameboard, t1, t2) == True:
+        #    print('This move is authorized')
+        #else:
+        #    print('This move is not authorized')
+        #if checkVictory(gameboard, a) == True:
+        #    print('Game over!')
+        #    i = False
+        #else:
+        #    print('The game goes on!')
 
         #if isEmpty(gameboard, t1) == True:
             #t1 = int(input('1ere tour vide.\nChoisir 1ere tour: '))
@@ -473,11 +484,10 @@ def playTurn(gameboard, n):
 def gameLoop(gameboard, n):
     moveCount = 0
     while (checkVictory(gameboard, n) == False):
-        moveCount += 1
-        print(moveCount)
         drawBoard(n)
         drawConfig(gameboard, n, R,G,B)
         playTurn(gameboard, n)
+        moveCount += 1
         drawBoard(n)
         drawConfig(gameboard, n, R,G,B)
         if checkVictory(gameboard, n) == True:
@@ -512,6 +522,7 @@ def readScores():
 def displayScores():
     return 0
 
+
 ## MAIN FUNCTION
 
 def main():
@@ -523,15 +534,6 @@ def main():
         gameLoop(gameboard, a)
         save(gameboard, a)
         playAgain(gameboard, a)
-        if checkMove(gameboard, t1, t2) == True:
-            print('This move is authorized')
-        else:
-            print('This move is not authorized')
-        if checkVictory(gameboard, a) == True:
-            print('Game over!')
-            i = False
-        else:
-            print('The game goes on!')
 
 def playAgain(gameboard, n):
     playAgain = str(input('Souhaitez vous rejouer? y/n: '))
@@ -539,9 +541,9 @@ def playAgain(gameboard, n):
         eraseAll(gameboard, n)
         eraseBoard(n)
         main()
-    else:
+    elif playAgain == "n":
         print('Thank you for playing!')
-        return False
+        return -1
 
 def goSolveYourself(gameboard):
     return 0

@@ -1,1 +1,5 @@
 Username: bad, Disk Count: 2, Move Count: 0
+Username: xd, Disk Count: 3, Move Count: None
+Username: tull, Disk Count: 1, Move Count: None
+Username: lol, Disk Count: 2, Move Count: None
+Username: jul, Disk Count: 1, Move Count: None
