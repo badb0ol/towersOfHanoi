@@ -1,5 +1,5 @@
 import turtle
-import random
+import random 
 
 ## IMPORTANT VARIABLES FOR DRAWING
 
