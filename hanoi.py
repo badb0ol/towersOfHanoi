@@ -655,6 +655,7 @@ def main():
     i = True
     while i:
         print('\n\n\t\tBienvenue dans les Tours de Hanoi!')
+        #print(time.localtime([secs]))
         a = int(input('\nCombien de disques? '))
         gameboard = init(a)
         b = int(input('Voulez vous jouer, ou regarder jouer? (1/2) '))
