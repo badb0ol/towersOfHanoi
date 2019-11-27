@@ -11,12 +11,6 @@ R = random.randint(0,255)
 G = random.randint(0,255)
 B = random.randint(0,255)
 
-R1 = random.randint(0,255)
-G1 = random.randint(0,255)
-B1 = random.randint(0,255)
-
-## HANOI FUNCTIONS
-
 def init(n):
     t = 3 # tower constant
     a = [[] for i in range(t)] # 2d array generation
@@ -134,10 +128,10 @@ def isInList(gameboard, elem, n):
 
 ## DRAWING FUNCTIONS
 
-def drawBoard(n, R1, G1, B1):
-    #R = random.randint(0,255)
-    #G = random.randint(0,255)
-    #B = random.randint(0,255)
+def drawBoard(n):
+    R = random.randint(0,255)
+    G = random.randint(0,255)
+    B = random.randint(0,255)
     boardSize = 30+80+(3*(40+(30*(n-1))))# 10px towers, gap of 20px between towers, biggestDisk = 40+(30*n-1)
     originX = (-100)-(30*n)
     originY = (-50)-(20*n)
@@ -149,7 +143,7 @@ def drawBoard(n, R1, G1, B1):
     t.goto(originX,originY)
     t.pendown()
     turtle.colormode(255)
-    t.fillcolor(R1, G1, B1)
+    t.fillcolor(R,G,B)
     t.begin_fill()
     i = 0
     while i < 2:
@@ -166,7 +160,7 @@ def drawBoard(n, R1, G1, B1):
     t.goto(originX+t1,originY+20) #goto tower 1
     t.pendown()
 
-    t.fillcolor(R1, G1, B1)
+    t.fillcolor(R,G,B)
     t.begin_fill()
     t.forward(5)            #tower draw
     t.left(90)
@@ -182,7 +176,7 @@ def drawBoard(n, R1, G1, B1):
     t.goto(originX+t2,originY+20) #goto tower 2
     t.pendown()
 
-    t.fillcolor(R1, G1, B1)
+    t.fillcolor(R,G,B)
     t.begin_fill()
     t.forward(5)            #tower draw
     t.left(90)
@@ -198,7 +192,7 @@ def drawBoard(n, R1, G1, B1):
     t.goto(originX+t3,originY+20) #goto tower 3
     t.pendown()
 
-    t.fillcolor(R1, G1, B1)
+    t.fillcolor(R,G,B)
     t.begin_fill()
     t.forward(5)            #tower draw
     t.left(90)
@@ -466,10 +460,10 @@ def readCoords(gameboard):
             #t1 = int(input('1ere tour vide.\nChoisir 1ere tour: '))
             #t2 = int(input('Choisir 2eme tour: '))
         #elif t1 > 2 or t1 < 0:
-            #t1 = int(input('Tour 1 entrÃ©e non existante.\nChoisir 1ere tour: '))
+            #t1 = int(input('Tour 1 entrée non existante.\nChoisir 1ere tour: '))
             #t2 = int(input('Choisir 2eme tour: '))
         #elif t2 > 2 or t2 < 0:
-            #t1 = int(input('Tour 2 entrÃ©e non existante.\nChoisir 1ere tour: '))
+            #t1 = int(input('Tour 2 entrée non existante.\nChoisir 1ere tour: '))
             #t2 = int(input('Choisir 2eme tour: '))
 
 
@@ -490,11 +484,11 @@ def playTurn(gameboard, n):
 def gameLoop(gameboard, n):
     moveCount = 0
     while (checkVictory(gameboard, n) == False):
-        drawBoard(n, R1, G1, B1)
+        drawBoard(n)
         drawConfig(gameboard, n, R,G,B)
         playTurn(gameboard, n)
         moveCount += 1
-        drawBoard(n, R1, G1, B1)
+        drawBoard(n)
         drawConfig(gameboard, n, R,G,B)
         if checkVictory(gameboard, n) == True:
             print('Game over!')
@@ -527,6 +521,7 @@ def readScores():
 def displayScores():
     return 0
 
+
 ## MAIN FUNCTION
 
 def main():
@@ -535,15 +530,9 @@ def main():
         print('\n\n\t\tBienvenue dans les Tours de Hanoi!')
         a = int(input('\nCombien de disques? '))
         gameboard = init(a)
-        b = int(input('Voulez vous jouer, ou regarder jour? (1/2)'))
-        if b == 1:
-            gameLoop(gameboard, a)
-            save(gameboard, a)
-            playAgain(gameboard, a)
-        elif b == 2:
-            goSolveYourself(gameboard, a)
-        else:
-            b = int(input('Choix non recconu.\nVoulez vous jouer, ou regarder jouer? (1/2)'))
+        gameLoop(gameboard, a)
+        save(gameboard, a)
+        playAgain(gameboard, a)
 
 def playAgain(gameboard, n):
     playAgain = str(input('Souhaitez vous rejouer? y/n: '))
@@ -555,13 +544,8 @@ def playAgain(gameboard, n):
         print('Thank you for playing!')
         return -1
 
-def goSolveYourself(gameboard, n):
-    maxSize = (2**n)-1
-    solution = (0,0)
-    solveGame = [[] for i in range(maxSize)]
-    for i in range(maxSize):
-        solveGame[i].append(solution)
-    return (solveGame)
+def goSolveYourself(gameboard):
+    return 0
 
 main()
 turtle.done()
