@@ -1,5 +1,7 @@
 import turtle
 import random
+import time
+from datetime import datetime, date
 
 ## IMPORTANT VARIABLES FOR DRAWING
 
@@ -489,6 +491,7 @@ def playTurn(gameboard, n):
 
 def gameLoop(gameboard, n):
     moveCount = 0
+    startTime = datetime.now().time()
     while (checkVictory(gameboard, n) == False):
         drawBoard(n, R1, G1, B1)
         drawConfig(gameboard, n, R,G,B)
@@ -496,9 +499,9 @@ def gameLoop(gameboard, n):
         moveCount += 1
         drawBoard(n, R1, G1, B1)
         drawConfig(gameboard, n, R,G,B)
-        if checkVictory(gameboard, n) == True:
-            print('Game over!')
-            return moveCount
+    print('Game over!')
+    endTime = datetime.now().time()
+    return moveCount, startTime, endTime
 #    print('Game over!')
 #    return moveCount
 
@@ -525,11 +528,20 @@ def cancelLastHit():
 def save(gameboard, n):
     username = input('Enter your username: ')
     diskCount = n
-    moveCount = gameLoop(gameboard, n)
-    scores = [(username, diskCount, moveCount)]
+    moveCount, startTime, endTime = gameLoop(gameboard, n)
+    print(moveCount)
+    avgTime = datetime.combine(date.today(), endTime) - datetime.combine(date.today(),startTime)
+    print(avgTime)
+    scores = [(username, diskCount, moveCount, avgTime)]
+    sortByTime(scores)
     with open('HighScores.txt', 'a') as f: # using 'with' automatically closes the file when loop exits
-        for username, diskCount, moveCount in scores:
-            f.write('Username: {0}, Disk Count: {1}, Move Count: {2}\n'.format(username, diskCount, moveCount))
+        for username, diskCount, moveCount, avgTime in scores:
+            f.write('Username: {0}, Disk Count: {1}, Move Count: {2}, Time Taken: {3}\n'.format(username, diskCount, moveCount, avgTime))
+    return scores
+
+def sortByTime(scores):
+    scores.sort(key=lambda scores: scores[3])
+    return scores
 
 def readScores():
     return 0
@@ -540,7 +552,8 @@ def displayScores():
 # RECURSIVE SOLVE
 
 def popnDraw(gameboard, nt1, nt2):
-
+    topT1 = lastElem(gameboard, nt1)
+    topT2 = lastElem(gameboard, nt2)
     eraseDisk(topT1, gameboard, n)
     gameboard[tFrom].pop()
     drawDisk(topT1, gameboard, n, R,G,B)

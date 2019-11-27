@@ -1,9 +1,3 @@
-Username: bad, Disk Count: 2, Move Count: 0
-Username: xd, Disk Count: 3, Move Count: None
-Username: tull, Disk Count: 1, Move Count: None
-Username: lol, Disk Count: 2, Move Count: None
-Username: jul, Disk Count: 1, Move Count: None
-Username: bad, Disk Count: 3, Move Count: None
-Username: [A, Disk Count: 3, Move Count: None
-Username: y, Disk Count: 2, Move Count: None
-Username: yungGod, Disk Count: 3, Move Count: None
+Username: clem, Disk Count: 1, Move Count: 0, Time Taken: 0:00:00.000033
+Username: clem, Disk Count: 2, Move Count: 0, Time Taken: 0:00:00.000031
+Username: jkl, Disk Count: 1, Move Count: 0, Time Taken: 0:00:00.000070
