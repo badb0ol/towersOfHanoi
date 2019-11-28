@@ -453,7 +453,6 @@ def readCoords(gameboard):
             t1 = int(input('Choix impossible\nChoisir 1ere tour: '))
             t2 = int(input('Choisir 2eme tour: '))
 
-
         #if checkMove(gameboard, t1, t2) == True:
         #    print('This move is authorized')
         #else:
@@ -474,7 +473,6 @@ def readCoords(gameboard):
             #t1 = int(input('Tour 2 entrée non existante.\nChoisir 1ere tour: '))
             #t2 = int(input('Choisir 2eme tour: '))
 
-
 def playTurn(gameboard, n):
     t1, t2 = readCoords(gameboard)
     topT1 = lastElem(gameboard, t1)
@@ -491,17 +489,17 @@ def playTurn(gameboard, n):
 
 def gameLoop(gameboard, n):
     moveCount = 0
-    startTime = datetime.now().time()
+    startTimeSecs = time.mktime(time.localtime())
     while (checkVictory(gameboard, n) == False):
         drawBoard(n, R1, G1, B1)
         drawConfig(gameboard, n, R,G,B)
         playTurn(gameboard, n)
         moveCount += 1
-        drawBoard(n, R1, G1, B1)
-        drawConfig(gameboard, n, R,G,B)
+        #drawBoard(n, R1, G1, B1)
+        #drawConfig(gameboard, n, R,G,B)
     print('Game over!')
-    endTime = datetime.now().time()
-    return moveCount, startTime, endTime
+    endTimeSecs = time.mktime(time.localtime())
+    return moveCount, startTimeSecs, endTimeSecs
 #    print('Game over!')
 #    return moveCount
 
@@ -513,7 +511,7 @@ def playAgain(gameboard, n):
         main()
     elif playAgain == "n":
         print('Thank you for playing!')
-        return -1
+        return
 
 ## CANCEL HITS
 
@@ -528,10 +526,9 @@ def cancelLastHit():
 def save(gameboard, n):
     username = input('Enter your username: ')
     diskCount = n
-    moveCount, startTime, endTime = gameLoop(gameboard, n)
+    moveCount, startTimeSecs, endTimeSecs = gameLoop(gameboard, n)
     print(moveCount)
-    avgTime = datetime.combine(date.today(), endTime) - datetime.combine(date.today(),startTime)
-    print(avgTime)
+    avgTime = endTimeSecs - startTimeSecs
     scores = [(username, diskCount, moveCount, avgTime)]
     sortByTime(scores)
     with open('HighScores.txt', 'a') as f: # using 'with' automatically closes the file when loop exits
@@ -551,21 +548,15 @@ def displayScores():
 
 # RECURSIVE SOLVE
 
-def popnDraw(gameboard, nt1, nt2):
+def popnDraw(gameboard, nt1, nt2, n):
     topT1 = lastElem(gameboard, nt1)
     topT2 = lastElem(gameboard, nt2)
     eraseDisk(topT1, gameboard, n)
-    gameboard[tFrom].pop()
-    drawDisk(topT1, gameboard, n, R,G,B)
-    gameboard[t2].append(topT1)
-    return 0
+    gameboard[nt1].pop()
+    drawDisk(topT2, gameboard, n, R,G,B)
+    gameboard[nt2].append(topT1)
 
 def solution(gameboard, n):
-#    if n == 1:
-#        return
-#    else:
-#        return solution(n-1, tFrom, tTo, tAux)
-#        return solution(n-1, tAux, tFrom, tTo)
     if n%2 == 0:
         if checkMove(gameboard, 0, 1) == True:
             return 0, 1
@@ -575,79 +566,54 @@ def solution(gameboard, n):
             return 0, 2
         elif checkMove(gameboard, 2, 0) == True:
             return 2, 0
-        elif checkMove(gameboard, 2, 0) == True:
-            return 2, 0
         elif checkMove(gameboard, 1, 2) == True:
             return 1, 2
-        elif checkMove(gameboard, 1, 2) == True:
+        elif checkMove(gameboard, 2, 1) == True:
             return 2, 1
     else:
-        if checkMove(gameboard, 0, 1) == True:
-            return 0, 1
-        elif checkMove(gameboard, 1, 0) == True:
-            return 1, 0
-        elif checkMove(gameboard, 0, 2) == True:
+        if checkMove(gameboard, 0, 2) == True:
             return 0, 2
         elif checkMove(gameboard, 2, 0) == True:
             return 2, 0
-        elif checkMove(gameboard, 2, 0) == True:
-            return 2, 0
+        elif checkMove(gameboard, 0, 1) == True:
+            return 0, 1
+        elif checkMove(gameboard, 1, 0) == True:
+            return 1, 0
         elif checkMove(gameboard, 1, 2) == True:
             return 1, 2
-        elif checkMove(gameboard, 1, 2) == True:
+        elif checkMove(gameboard, 2, 1) == True:
             return 2, 1
-
-        #if n%2 == 0:
-    #    while i:
-    #        if checkMove(gameboard, )
-    #        checkMove(gameboard, 0, 1)
-    #        checkMove(gameboard, 0, 2) or checkMove(gameboard, 2, 0)
-    #        checkMove(gameboard, 1, 2)
-    #else:
-    #    while i:
-    #        checkMove(gameboard, 0, 2)
-    #        checkMove(gameboard, 0, 1)
-    #        checkMove(gameboard, 1, 2)
-
-    tFrom = 0
-    tAux = 1
-    tTo = 2
-
-    topTFrom = lastElem(gameboard, tFrom)
-    topTAux = lastElem(gameboard, tAux)
-    topTTo = lastElem(gameboard, tTo)
-
-    if checkMove(gameboard, tFrom, tTo) == True:
-        eraseDisk(topTFrom, gameboard, n)
-        gameboard[tFrom].pop()
-        drawDisk(topTFrom, gameboard, n, R,G,B)
-        gameboard[tTo].append(topTFrom)
-        return gameboard
-
-    if checkMove(gameboard, tTo, tFrom) == True:
-        eraseDisk(topTFrom, gameboard, n)
-        gameboard[tFrom].pop()
-        drawDisk(topTFrom, gameboard, n, R,G,B)
-        gameboard[tTo].append(topTFrom)
-
-    if checkMove(gameboard, t1, t2) == True:
-        eraseDisk(topT1, gameboard, n)
-        gameboard[t1].pop()
-        drawDisk(topT1, gameboard, n, R,G,B)
-        gameboard[t2].append(topT1)
-    else:
-        print('please try again')
-        t1, t2 = readCoords(gameboard)
-    return 0
 
 def goSolveYourself(gameboard, n):
     maxSize = (2**n)-1
-    sol = solution(gameboard, n)
     solveGame = [[] for i in range(maxSize)]
-    for i in range(maxSize):
-        solveGame[i].append(sol)
-        popnDraw(gameboard, nt1, nt2)
+    for i in solveGame: #iterate over solutions
+        #for j in i[]: #iterate over couples of solutions
         print(solveGame)
+        solveGame[i].append(sol)
+        #for j in i:
+        if checkMove(gameboard, i[0], i[1]) == True:
+            solveGame[i].append(sol)
+            popnDraw(gameboard, i[0], i[1], n)
+            drawBoard(n, R1, G1, B1)
+            drawConfig(gameboard, n, R,G,B)
+        solveGame[i].append(sol)
+
+def recursiveHanoi(gameboard, n, tFrom, tAux, tTo):
+    if n == 1:
+        popnDraw(gameboard, tTo, tFrom, n)
+        drawConfig(gameboard, n, R,G,B)
+        drawBoard(n, R1, G1, B1)
+    else:
+        recursiveHanoi(gameboard, n-1, tFrom, tAux, tTo)
+        popnDraw(gameboard, tTo, tFrom, n)
+        drawBoard(n, R1, G1, B1)
+        drawConfig(gameboard, n, R,G,B)
+        recursiveHanoi(gameboard, n-1, tAux, tTo, tFrom)
+        popnDraw(gameboard, tTo, tFrom, n)
+        drawBoard(n, R1, G1, B1)
+        drawConfig(gameboard, n, R,G,B)
+        print(gameboard)
 
 ## MAIN FUNCTION
 
@@ -664,7 +630,14 @@ def main():
             save(gameboard, a)
             playAgain(gameboard, a)
         elif b == 2:
-            goSolveYourself(gameboard, a)
+            #goSolveYourself(gameboard, a)
+            #save(gameboard, a)
+            #playAgain(gameboard, a)
+            t1=gameboard[0]
+            t2=gameboard[1]
+            t3=gameboard[2]
+            print(t1,t2,t3)
+            recursiveHanoi(gameboard,a,0,1,2)
         else:
             b = int(input('Choix non recconu.\nVoulez vous jouer, ou regarder jouer? (1/2)'))
 
