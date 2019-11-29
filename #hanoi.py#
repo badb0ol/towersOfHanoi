@@ -11,6 +11,12 @@ R = random.randint(0,255)
 G = random.randint(0,255)
 B = random.randint(0,255)
 
+R1 = random.randint(0,255)
+G1 = random.randint(0,255)
+B1 = random.randint(0,255)
+
+## HANOI FUNCTIONS
+
 def init(n):
     t = 3 # tower constant
     a = [[] for i in range(t)] # 2d array generation
@@ -128,10 +134,10 @@ def isInList(gameboard, elem, n):
 
 ## DRAWING FUNCTIONS
 
-def drawBoard(n):
-    R = random.randint(0,255)
-    G = random.randint(0,255)
-    B = random.randint(0,255)
+def drawBoard(n, R1, G1, B1):
+    #R = random.randint(0,255)
+    #G = random.randint(0,255)
+    #B = random.randint(0,255)
     boardSize = 30+80+(3*(40+(30*(n-1))))# 10px towers, gap of 20px between towers, biggestDisk = 40+(30*n-1)
     originX = (-100)-(30*n)
     originY = (-50)-(20*n)
@@ -143,7 +149,7 @@ def drawBoard(n):
     t.goto(originX,originY)
     t.pendown()
     turtle.colormode(255)
-    t.fillcolor(R,G,B)
+    t.fillcolor(R1, G1, B1)
     t.begin_fill()
     i = 0
     while i < 2:
@@ -160,7 +166,7 @@ def drawBoard(n):
     t.goto(originX+t1,originY+20) #goto tower 1
     t.pendown()
 
-    t.fillcolor(R,G,B)
+    t.fillcolor(R1, G1, B1)
     t.begin_fill()
     t.forward(5)            #tower draw
     t.left(90)
@@ -176,7 +182,7 @@ def drawBoard(n):
     t.goto(originX+t2,originY+20) #goto tower 2
     t.pendown()
 
-    t.fillcolor(R,G,B)
+    t.fillcolor(R1, G1, B1)
     t.begin_fill()
     t.forward(5)            #tower draw
     t.left(90)
@@ -192,7 +198,7 @@ def drawBoard(n):
     t.goto(originX+t3,originY+20) #goto tower 3
     t.pendown()
 
-    t.fillcolor(R,G,B)
+    t.fillcolor(R1, G1, B1)
     t.begin_fill()
     t.forward(5)            #tower draw
     t.left(90)
@@ -484,17 +490,27 @@ def playTurn(gameboard, n):
 def gameLoop(gameboard, n):
     moveCount = 0
     while (checkVictory(gameboard, n) == False):
-        drawBoard(n)
+        drawBoard(n, R1, G1, B1)
         drawConfig(gameboard, n, R,G,B)
         playTurn(gameboard, n)
         moveCount += 1
-        drawBoard(n)
+        drawBoard(n, R1, G1, B1)
         drawConfig(gameboard, n, R,G,B)
         if checkVictory(gameboard, n) == True:
             print('Game over!')
             return moveCount
 #    print('Game over!')
 #    return moveCount
+
+def playAgain(gameboard, n):
+    playAgain = str(input('Souhaitez vous rejouer? y/n: '))
+    if playAgain == "y":
+        eraseAll(gameboard, n)
+        eraseBoard(n)
+        main()
+    elif playAgain == "n":
+        print('Thank you for playing!')
+        return -1
 
 ## CANCEL HITS
 
@@ -511,7 +527,7 @@ def save(gameboard, n):
     diskCount = n
     moveCount = gameLoop(gameboard, n)
     scores = [(username, diskCount, moveCount)]
-    with open('HighScores.txt', 'a') as f:
+    with open('HighScores.txt', 'a') as f: # using 'with' automatically closes the file when loop exits
         for username, diskCount, moveCount in scores:
             f.write('Username: {0}, Disk Count: {1}, Move Count: {2}\n'.format(username, diskCount, moveCount))
 
@@ -521,6 +537,36 @@ def readScores():
 def displayScores():
     return 0
 
+# RECURSIVE SOLVE
+
+def popnDraw(gameboard, nt1, nt2)
+
+def solution(gameboard, n):
+    tFrom = 0
+    tAux = 1
+    tTo = 2
+    if checkMove(gameboard, tFrom, tTo) == True and isEmpty(gameboard, tAux):
+        eraseDisk(topT1, gameboard, n)
+        gameboard[tFrom].pop()
+        drawDisk(topT1, gameboard, n, R,G,B)
+        gameboard[t2].append(topT1)
+    if checkMove(gameboard, t1, t2) == True:
+        eraseDisk(topT1, gameboard, n)
+        gameboard[t1].pop()
+        drawDisk(topT1, gameboard, n, R,G,B)
+        gameboard[t2].append(topT1)
+    else:
+        print('please try again')
+        t1, t2 = readCoords(gameboard)
+    return 0
+
+def goSolveYourself(gameboard, n):
+    maxSize = (2**n)-1
+    solution = (0,0)
+    solveGame = [[] for i in range(maxSize)]
+    for i in range(maxSize):
+        solveGame[i].append(solution)
+    return (solveGame)
 
 ## MAIN FUNCTION
 
@@ -530,22 +576,15 @@ def main():
         print('\n\n\t\tBienvenue dans les Tours de Hanoi!')
         a = int(input('\nCombien de disques? '))
         gameboard = init(a)
-        gameLoop(gameboard, a)
-        save(gameboard, a)
-        playAgain(gameboard, a)
-
-def playAgain(gameboard, n):
-    playAgain = str(input('Souhaitez vous rejouer? y/n: '))
-    if playAgain == "y":
-        eraseAll(gameboard, n)
-        eraseBoard(n)
-        main()
-    elif playAgain == "n":
-        print('Thank you for playing!')
-        return -1
-
-def goSolveYourself(gameboard):
-    return 0
+        b = int(input('Voulez vous jouer, ou regarder jour? (1/2) '))
+        if b == 1:
+            gameLoop(gameboard, a)
+            save(gameboard, a)
+            playAgain(gameboard, a)
+        elif b == 2:
+            goSolveYourself(gameboard, a)
+        else:
+            b = int(input('Choix non recconu.\nVoulez vous jouer, ou regarder jouer? (1/2)'))
 
 main()
 turtle.done()

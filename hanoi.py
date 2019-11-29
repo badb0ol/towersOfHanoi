@@ -453,6 +453,13 @@ def readCoords(gameboard):
             t1 = int(input('Choix impossible\nChoisir 1ere tour: '))
             t2 = int(input('Choisir 2eme tour: '))
 
+def autoReadCoords(gameboard, n):
+    on = True
+    while on:
+        for i in gameboard:
+            print(i)
+        return 0
+
         #if checkMove(gameboard, t1, t2) == True:
         #    print('This move is authorized')
         #else:
@@ -586,34 +593,26 @@ def solution(gameboard, n):
 
 def goSolveYourself(gameboard, n):
     maxSize = (2**n)-1
-    solveGame = [[] for i in range(maxSize)]
-    for i in solveGame: #iterate over solutions
-        #for j in i[]: #iterate over couples of solutions
-        print(solveGame)
-        solveGame[i].append(sol)
-        #for j in i:
-        if checkMove(gameboard, i[0], i[1]) == True:
-            solveGame[i].append(sol)
-            popnDraw(gameboard, i[0], i[1], n)
-            drawBoard(n, R1, G1, B1)
-            drawConfig(gameboard, n, R,G,B)
-        solveGame[i].append(sol)
+    sol =
+    solvedGame = [[] for i in range(maxSize)]
+    for i in solvedGame: #iterate over solutions
+        if checkMove(gameboard, sol1, sol2) == True:
+            solvedGame[0].append(sol)
+            if checkVictory(gameboard, n) == True:
+                return solvedGames
 
-def recursiveHanoi(gameboard, n, tFrom, tAux, tTo):
-    if n == 1:
+def recursiveVictory(gameboard, solvedGame, n, tower1, tower2, tower3):
+    if n > 0: # move tower of size n-1 to t2
+        recursiveVictory(gameboard, n-1, tower1, tower3, tower2)
         popnDraw(gameboard, tTo, tFrom, n)
-        drawConfig(gameboard, n, R,G,B)
         drawBoard(n, R1, G1, B1)
+        drawConfig(gameboard, n, R,G,B)
+        if checkVictory(gameboard, n) == True: # move disk from t1 to t3
+            return
     else:
-        recursiveHanoi(gameboard, n-1, tFrom, tAux, tTo)
-        popnDraw(gameboard, tTo, tFrom, n)
-        drawBoard(n, R1, G1, B1)
-        drawConfig(gameboard, n, R,G,B)
-        recursiveHanoi(gameboard, n-1, tAux, tTo, tFrom)
-        popnDraw(gameboard, tTo, tFrom, n)
-        drawBoard(n, R1, G1, B1)
-        drawConfig(gameboard, n, R,G,B)
-        print(gameboard)
+        recursiveVictory(gameboard, n-1, tower2, tower1, tower3)
+        if checkVictory(gameboard, n) == True: # move disk from t1 to t3
+            return
 
 ## MAIN FUNCTION
 
@@ -630,14 +629,8 @@ def main():
             save(gameboard, a)
             playAgain(gameboard, a)
         elif b == 2:
-            #goSolveYourself(gameboard, a)
-            #save(gameboard, a)
-            #playAgain(gameboard, a)
-            t1=gameboard[0]
-            t2=gameboard[1]
-            t3=gameboard[2]
-            print(t1,t2,t3)
-            recursiveHanoi(gameboard,a,0,1,2)
+            print(goSolveYourself(gameboard, a))
+            recursiveVictory(gameboard,a,0,1,2)
         else:
             b = int(input('Choix non recconu.\nVoulez vous jouer, ou regarder jouer? (1/2)'))
 
