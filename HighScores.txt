@@ -2,3 +2,26 @@ Username: clem, Disk Count: 1, Move Count: 0, Time Taken: 0:00:00.000033
 Username: clem, Disk Count: 2, Move Count: 0, Time Taken: 0:00:00.000031
 Username: jkl, Disk Count: 1, Move Count: 0, Time Taken: 0:00:00.000070
 Username: cl, Disk Count: 2, Move Count: 3, Time Taken: 24.0
+Username: 2, Disk Count: 5, Move Count: 0, Time Taken: 0.0
+Username: 2, Disk Count: 2, Move Count: 0, Time Taken: 0.0
+Username: 2, Disk Count: 3, Move Count: 0, Time Taken: 0.0
+Username: 2, Disk Count: 2, Move Count: 0, Time Taken: 0.0
+Username: 2, Disk Count: 3, Move Count: 0, Time Taken: 0.0
+Username: clem, Disk Count: 2, Move Count: 0, Time Taken: 0.0
+Username: clem, Disk Count: 3, Move Count: 0, Time Taken: 0.0
+Username: 2, Disk Count: 3, Move Count: 0, Time Taken: 0.0
+Username: 2, Disk Count: 3, Move Count: 0, Time Taken: 0.0
+Username: 2, Disk Count: 3, Move Count: 0, Time Taken: 0.0
+Username: 2, Disk Count: 3, Move Count: 0, Time Taken: 0.0
+Username: 2, Disk Count: 3, Move Count: 0, Time Taken: 0.0
+Username: 2, Disk Count: 3, Move Count: 0, Time Taken: 0.0
+Username: 2, Disk Count: 3, Move Count: 0, Time Taken: 0.0
+Username: 2, Disk Count: 3, Move Count: 0, Time Taken: 0.0
+Username: 2, Disk Count: 5, Move Count: 0, Time Taken: 0.0
+Username: 2, Disk Count: 3, Move Count: 0, Time Taken: 0.0
+Username: drawBoard(a, R1, G1, B1), Disk Count: 3, Move Count: 0, Time Taken: 0.0
+Username: , Disk Count: 5, Move Count: 0, Time Taken: 0.0
+Username: , Disk Count: 5, Move Count: 0, Time Taken: 0.0
+Username: , Disk Count: 5, Move Count: 0, Time Taken: 0.0
+Username: , Disk Count: 5, Move Count: 0, Time Taken: 0.0
+Username: *, Disk Count: 5, Move Count: 0, Time Taken: 0.0
