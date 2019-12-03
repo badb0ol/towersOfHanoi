@@ -25,3 +25,25 @@ Username: , Disk Count: 5, Move Count: 0, Time Taken: 0.0
 Username: , Disk Count: 5, Move Count: 0, Time Taken: 0.0
 Username: , Disk Count: 5, Move Count: 0, Time Taken: 0.0
 Username: *, Disk Count: 5, Move Count: 0, Time Taken: 0.0
+Username: [A, Disk Count: 3, Move Count: 0, Time Taken: 0.0
+Username: [A, Disk Count: 3, Move Count: 0, Time Taken: 0.0
+Username: [A, Disk Count: 3, Move Count: 0, Time Taken: 0.0
+Username: [A, Disk Count: 3, Move Count: 0, Time Taken: 0.0
+Username: [A, Disk Count: 3, Move Count: 0, Time Taken: 0.0
+Username: [A, Disk Count: 3, Move Count: 0, Time Taken: 0.0
+Username: [A, Disk Count: 3, Move Count: 0, Time Taken: 0.0
+Username: [A, Disk Count: 3, Move Count: 0, Time Taken: 0.0
+Username: , Disk Count: 5, Move Count: 0, Time Taken: 0.0
+Username: clem, Disk Count: 3, Move Count: 0, Time Taken: 0.0
+Username: [A, Disk Count: 3, Move Count: 0, Time Taken: 0.0
+Username: [A, Disk Count: 3, Move Count: 0, Time Taken: 0.0
+Username: c;e	, Disk Count: 3, Move Count: 0, Time Taken: 0.0
+Username: cle	, Disk Count: 3, Move Count: 0, Time Taken: 0.0
+Username: cle	, Disk Count: 3, Move Count: 0, Time Taken: 0.0
+Username: cle	, Disk Count: 3, Move Count: 0, Time Taken: 0.0
+Username: c, Disk Count: 3, Move Count: 0, Time Taken: 0.0
+Username: ç, Disk Count: 3, Move Count: 0, Time Taken: 0.0
+Username: , Disk Count: 3, Move Count: 0, Time Taken: 0.0
+Username: ah, Disk Count: 3, Move Count: 0, Time Taken: 0.0
+Username: Ç, Disk Count: 3, Move Count: 0, Time Taken: 0.0
+Username: c, Disk Count: 3, Move Count: 0, Time Taken: 0.0

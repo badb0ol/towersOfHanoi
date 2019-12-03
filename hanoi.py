@@ -286,7 +286,7 @@ def eraseBoard(n):
     t.left(90)
     t.end_fill()
 
-def drawDisk(nDisk, gameboard, n, R,G,B):
+def drawDisk(nDisk, gameboard, n, R,G,B): # draws the disk you pass as parameter
     t = turtle.Turtle()
     t.hideturtle()
     turtle.colormode(255)
@@ -478,9 +478,9 @@ def playTurn(gameboard, n):
     topT1 = lastElem(gameboard, t1)
     topT2 = lastElem(gameboard, t2)
     if checkMove(gameboard, t1, t2) == True:
-        eraseDisk(topT1, gameboard, n)
+        eraseDisk(topT1, gameboard, n) # eraseDisk(lastElem(gameboard, t1), gameboard, n)
         gameboard[t1].pop()
-        drawDisk(topT1, gameboard, n, R,G,B)
+        drawDisk(topT2, gameboard, n, R,G,B) #drawDisk(lastElem(gameboard, t2), gameboard, n, R,G,B)
         gameboard[t2].append(topT1)
     else:
         print('please try again')
@@ -548,15 +548,14 @@ def displayScores():
 
 # RECURSIVE SOLVE
 
-def popnDraw(gameboard, nt1, nt2, n):
-    topT1 = lastElem(gameboard, nt1)
-    topT2 = lastElem(gameboard, nt2)
+def Draw(gameboard, t1, t2, n):
+    topT1 = lastElem(gameboard, t1)
+    topT2 = lastElem(gameboard, t2)
     eraseDisk(topT1, gameboard, n)
-    gameboard[nt2].append(gameboard[nt1].pop())
+    #gameboard[t2].append(gameboard[t1].pop())
     drawDisk(topT2, gameboard, n, R,G,B)
     #gameboard[t3].append(lastElem(gameboard, t1))
     #gameboard[t1].pop()
-    return nt1, nt2
 
 def drawMe(gameboard, t1):
     drawBoard(a, R1, G1, B1)
@@ -571,29 +570,93 @@ def drawMe(gameboard, t1):
 
 def goSolveUrself(gameboard, t1, t3, n):
     maxSize = (2**n)-1
-    solvedGame = [x for i in range(maxSize)]
+    solvedGame = [] #[[] for i in range(maxSize)]
     #T1Array = [] for i in range(maxSize)
     #T2Array = [] for i in range(maxSize)
-    assert len(gameboard[t1]) >= n
+    #assert len(gameboard[t1]) >= n
+    if n == 0:
+        return solvedGame
     if n == 1:
+        #Draw(gameboard, t1, t3, n)
         gameboard[t3].append(gameboard[t1].pop())
+        #gameboard[t1].pop()
+        #gameboard[t3].append(gameboard[t1])
+        #lastElem(gameboard, t1)gameboard[].pop()
         print(t1,'->',t3,':',gameboard)
-        solvedGame.append(towers)
-    else:
+        solvedGame.append(tuple([t1,t3]))
+        #Draw(gameboard, lastElem(gameboard, t1), lastElem(gameboard, t3), n)
+    else: # FINALLY FUCKING WORKS
+          # I chose to use extend because appending a new tuple as a list made it very inconvenient to traverse
         t2 = 3 - t1 - t3 # t1+t3+t2 = 3
-        towers = (t1, t2)
-        goSolveUrself(gameboard, t1, t2, n-1) # move disk from source to aux
-        goSolveUrself(gameboard, t1, t3, 1) # move disk from source to target
-        goSolveUrself(gameboard, t2, t3, n-1) # move disk from aux to target.
-
-            #eraseDisk(lastElem(gameboard, t2), gameboard, n)
-            #drawDisk(lastElem(gameboard, t3), gameboard, n, R,G,B)
-        #if len(gameboard[t1]) >= 1:
+        #topT2 = lastElem(gameboard, t2)
+        #Draw(gameboard, t1, t2, n)
+        solvedGame.extend(goSolveUrself(gameboard, t1, t2, n-1))
+        #Draw(gameboard, t1, t3, n)
+        #Draw(gameboard, t1, t2, n)
+        #solvedGame += goSolveUrself(gameboard, t1, t2, n-1)
+        #goSolveUrself(gameboard, t1, t2, n-1) # move disk from source to aux
+        solvedGame.extend(goSolveUrself(gameboard, t1, t3, 1))
+        #Draw(gameboard, t2, t3, n)
+        #Draw(gameboard, t1, t3, n)
+        #solvedGame += goSolveUrself(gameboard, t1, t3, n-1)
+        #goSolveUrself(gameboard, t1, t3, 1) # move disk from source to target
+        solvedGame.extend(goSolveUrself(gameboard, t2, t3, n-1))
+        #Draw(gameboard, t2, t3, n)
+        #solvedGame += goSolveUrself(gameboard, t2, t3, n-1)
+        #goSolveUrself(gameboard, t2, t3, n-1) # move disk from aux to target.
     return solvedGame
+    #else:
+        #eraseDisk(lastElem(gameboard, t2), gameboard, n)
+        #drawDisk(lastElem(gameboard, t3), gameboard, n, R,G,B)
+        #if len(gameboard[t1]) >= 1:
+
+def animateVictory(solvedGame, n):
+    gameboard = init(n)
+    drawBoard(n, R1, G1, B1)
+    drawConfig(gameboard, n, R,G,B)
+    print(solvedGame)
+    for i, j in gameboard:
+        topT1 = lastElem(gameboard, i)
+        topT2 = lastElem(gameboard, j)
+        eraseDisk(topT1, gameboard, n) # eraseDisk(lastElem(gameboard, t1), gameboard, n)
+        #gameboard[i].pop()
+        drawDisk(topT2, gameboard, n, R,G,B) #drawDisk(lastElem(gameboard, t2), gameboard, n, R,G,B)
+        #gameboard[t2].append(topT1)
 
 def readSolvedGame(gameboard, t1, t3, n):
+    drawBoard(n, R1, G1, B1)
+    drawConfig(gameboard, n, R,G,B)
     solvedGame = goSolveUrself(gameboard, 0, 2, n)
+    moveCount = 0
     print(solvedGame)
+    #lastElem(gameboard, i)
+    #lastElem(gameboard, j)
+    startTimeSecs = time.mktime(time.localtime())
+    #drawBoard(n, R1, G1, B1)
+    #drawConfig(solvedGame, n, R,G,B)
+    #for i in solvedGame:
+    #    for j in i:
+            #eraseDisk(lastElem(gameboard, j), gameboard, n)
+            #drawDisk(lastElem(gameboard, j), gameboard, n, R,G,B)
+        #topT1 = lastElem(gameboard, i)
+        #topT3 = lastElem(gameboard, j)
+        #print(topT1)
+        #print(j)
+        #print(topT3)
+        #print(j)
+        #if checkMove(gameboard, i, j) == True:
+        #eraseDisk(lastElem(gameboard, t1), gameboard, n)
+
+        #drawDisk(topT3, gameboard, n, R,G,B)
+        #Draw(gameboard, i, j, n)
+        #print(i, j)
+        #for j in i:
+            #eraseDisk(lastElem(gameboard, j), gameboard, n)
+            #drawDisk(lastElem(gameboard, j), gameboard, n, R,G,B)
+            #Draw(gameboard, t1, t2, n)
+    #print('Game over!')
+    #endTimeSecs = time.mktime(time.localtime())
+    #return moveCount, startTimeSecs, endTimeSecs
 
 def recursiveLoop(gameboard, t1, t3, n):
     goSolveUrself(gameboard, t1, t3, n)
@@ -626,14 +689,11 @@ def main():
             playAgain(gameboard, a)
         elif b == 2:
             #goSolveUrself(gameboard, 0, 2, a)
-            drawBoard(a, R1, G1, B1)
-            drawConfig(gameboard, a, R,G,B)
-
             #goSolveUrself(gameboard, 0, 2, a)
-            readSolvedGame(gameboard, 0, 2, a)
-
+            #readSolvedGame(gameboard, 0, 2, a)
+            solvedGame = goSolveUrself(gameboard, 0, 2, a)
+            animateVictory(solvedGame, a)
             #recursiveLoop(gameboard, 0, 2, a)
-
             save(gameboard, a)
             playAgain(gameboard, a)
             print(gameboard)
