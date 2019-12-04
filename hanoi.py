@@ -610,6 +610,22 @@ def goSolveUrself(gameboard, t1, t3, n):
         #drawDisk(lastElem(gameboard, t3), gameboard, n, R,G,B)
         #if len(gameboard[t1]) >= 1:
 
+def autoPlayTurn(gameboard, n):
+    solvedGame = goSolveUrself(gameboard, 0, 2, n)
+    newGameboard = init(n)
+    drawBoard(n, R1, G1, B1)
+    drawConfig(newGameboard, n, R,G,B)
+    for i, j in solvedGame:
+        topT1 = lastElem(newGameboard, i)
+        topT2 = lastElem(newGameboard, j)
+        if checkMove(newGameboard, i, j) == True:
+            eraseDisk(topT1, newGameboard, n) # eraseDisk(lastElem(gameboard, t1), gameboard, n)
+            newGameboard[i].pop()
+            drawDisk(topT2, newGameboard, n, R,G,B) #drawDisk(lastElem(gameboard, t2), gameboard, n, R,G,B)
+            newGameboard[j].append(topT1)
+            drawConfig(newGameboard, n, R,G,B)
+    return newGameboard
+
 def animateVictory(solvedGame, n):
     gameboard = init(n)
     drawBoard(n, R1, G1, B1)
@@ -691,8 +707,9 @@ def main():
             #goSolveUrself(gameboard, 0, 2, a)
             #goSolveUrself(gameboard, 0, 2, a)
             #readSolvedGame(gameboard, 0, 2, a)
-            solvedGame = goSolveUrself(gameboard, 0, 2, a)
-            animateVictory(solvedGame, a)
+            #solvedGame = goSolveUrself(gameboard, 0, 2, a)
+            autoPlayTurn(gameboard, a)
+            #animateVictory(solvedGame, a)
             #recursiveLoop(gameboard, 0, 2, a)
             save(gameboard, a)
             playAgain(gameboard, a)

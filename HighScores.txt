@@ -47,3 +47,4 @@ Username: , Disk Count: 3, Move Count: 0, Time Taken: 0.0
 Username: ah, Disk Count: 3, Move Count: 0, Time Taken: 0.0
 Username: Ç, Disk Count: 3, Move Count: 0, Time Taken: 0.0
 Username: c, Disk Count: 3, Move Count: 0, Time Taken: 0.0
+Username: clem, Disk Count: 3, Move Count: 0, Time Taken: 0.0
