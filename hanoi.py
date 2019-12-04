@@ -618,11 +618,13 @@ def autoPlayTurn(gameboard, n):
     for i, j in solvedGame:
         topT1 = lastElem(newGameboard, i)
         topT2 = lastElem(newGameboard, j)
+        #drawConfig(newGameboard, n, R,G,B)
         if checkMove(newGameboard, i, j) == True:
             eraseDisk(topT1, newGameboard, n) # eraseDisk(lastElem(gameboard, t1), gameboard, n)
             newGameboard[i].pop()
             drawDisk(topT2, newGameboard, n, R,G,B) #drawDisk(lastElem(gameboard, t2), gameboard, n, R,G,B)
             newGameboard[j].append(topT1)
+            drawBoard(n, R1, G1, B1)
             drawConfig(newGameboard, n, R,G,B)
     return newGameboard
 
