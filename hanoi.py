@@ -4,7 +4,7 @@ import time
 from datetime import datetime, date
 
 ## IMPORTANT VARIABLES FOR DRAWING
-
+turtle.hideturtle()
 turtle.setup(width=1366, height=768, startx=30, starty=60)
 turtle.colormode(255)
 turtle.bgcolor(105,105,105)
@@ -67,29 +67,23 @@ def checkVictory(gameboard, n):
 
 ## EXTRA FUNCTIONS
 
-def initButton():
+def buttonClick():
     t = turtle.Turtle()
     t.hideturtle()
-    t.fillcolor('white')
-    t.begin_fill()
-    for i in range(2):
-        t.forward(80)
-        t.left(90)
-        t.forward(30)
-        t.left(90)
-    t.end_fill()
     t.penup()
     t.goto(5,6)
     t.pendown()
-    t.write('Initialize', font=('Arial',20,'normal'))
-
-def buttonClick(x, y):
-    if x > 2 and x < 81 and y > 9 and y > 27:
-        return 0
+    t.hideturtle()
+    t.write('Press Enter/Return to Initialize', align='center', font=('Arial',20,'normal'))
+    time.sleep(1)
+    t.undo()
 
 def isClicked():
-    turtle.onscreenclick(buttonClick, 1)
-    turtle.listen()
+    t = turtle.Turtle()
+    t.hideturtle()
+    t.undo()
+    t.reset()
+    main()
 
 def firstElem(gameboard, nbTower):# FONCTION DISQUE_SUPERIEUR
     if nbTower >= 0 and nbTower <= 2: # check towerNb is correct
@@ -140,9 +134,9 @@ def drawBoard(n, R1, G1, B1):
     #R = random.randint(0,255)
     #G = random.randint(0,255)
     #B = random.randint(0,255)
-    boardSize = 30+80+(3*(40+(30*(n-1))))# 10px towers, gap of 20px between towers, biggestDisk = 40+(30*n-1)
-    originX = (-100)-(30*n)
-    originY = (-50)-(20*n)
+    boardSize = 30+80+(4*(40+(30*(n-1))))# 10px towers, gap of 20px between towers, biggestDisk = 40+(30*n-1)
+    originX = (-250)-(40+(30*n))
+    originY = (-100)-(20*n)
     tHeight = (20*n)+20
     t = turtle.Turtle()
     t.hideturtle()
@@ -213,13 +207,12 @@ def drawBoard(n, R1, G1, B1):
     t.end_fill()
 
 def eraseBoard(n):
-    boardSize = 30+80+(3*(40+(30*(n-1))))# 10px towers, gap of 20px between towers, biggestDisk = 40+(30*n-1)
-    originX = (-100)-(30*n)
-    originY = (-50)-(20*n)
+    boardSize = 30+80+(4*(40+(30*(n-1))))# 10px towers, gap of 20px between towers, biggestDisk = 40+(30*n-1)
+    originX = (-250)-(40+(30*n))
+    originY = (-100)-(20*n)
     tHeight = (20*n)+20
     t = turtle.Turtle()
     t.hideturtle()
-    t.speed(0)
     t.penup()
     t.goto(originX,originY)
     t.pendown()
@@ -292,19 +285,19 @@ def drawDisk(nDisk, gameboard, n, R,G,B): # draws the disk you pass as parameter
     turtle.colormode(255)
     t.fillcolor(R,G,B)
     t.speed(0)
-    boardSize = 30+80+(3*(40+(30*(n-1))))
+    boardSize = 30+80+(4*(40+(30*(n-1))))
     t1 = (boardSize/4)
     t2 = (boardSize/2)
     t3 = ((boardSize/4)*3)
     diskSize = 40+(30*(nDisk-1))
-    originX = (-100)-(30*n)
-    originY = (-50)-(20*n)
+    originX = (-250)-(40+(30*n))
+    originY = (-100)-(20*n)
     tHeight = (20*n)+20
     dPos = diskPosition(gameboard, nDisk) #Position of disk by order of lists
     g = diskPosInList(gameboard, nDisk) #Position of disk within its list
     # get index of elem in the sublist and index of arrival
     if dPos == 0: # if destination tower = 1 and is empty
-        t.hideturtle()
+        #t.hideturtle()
         t.penup()
         t.goto(originX+t1,originY+20+(g*20)) #goto tower 1
         t.pendown()
@@ -321,7 +314,7 @@ def drawDisk(nDisk, gameboard, n, R,G,B): # draws the disk you pass as parameter
         t.left(diskSize/2)
         t.end_fill()
     elif dPos == 1: # if destination tower = 2 and is empty
-        t.hideturtle()
+        #t.hideturtle()
         t.penup()
         t.goto(originX+t2,originY+20+(g*20)) #goto tower 1
         t.pendown()
@@ -338,7 +331,7 @@ def drawDisk(nDisk, gameboard, n, R,G,B): # draws the disk you pass as parameter
         t.left(diskSize/2)
         t.end_fill()
     elif dPos == 2: # if destination tower = 3 and is empty
-        t.hideturtle()
+        #t.hideturtle()
         t.penup()
         t.goto(originX+t3,originY+20+(g*20)) #goto tower 1
         t.pendown()
@@ -363,19 +356,19 @@ def eraseDisk(nDisk, gameboard, n):
         t.hideturtle()
         turtle.colormode(255)
         t.speed(0)
-        boardSize = 30+80+(3*(40+(30*(n-1))))
+        boardSize = 30+80+(4*(40+(30*(n-1))))
         t1 = (boardSize/4)
         t2 = (boardSize/2)
         t3 = ((boardSize/4)*3)
         diskSize = 40+(30*(nDisk-1))
-        originX = (-100)-(30*n)
-        originY = (-50)-(20*n)
+        originX = (-250)-(40+(30*n))
+        originY = (-100)-(20*n)
         tHeight = (20*n)+20
         dPos = diskPosition(gameboard, nDisk)
         g = diskPosInList(gameboard, nDisk)
         # get index of elem in the sublist and index of arrival
         if dPos == 0: # if destination tower = 1 and is empty
-            t.hideturtle()
+            #t.hideturtle()
             t.penup()
             t.goto(originX+t1,originY+20+(g*20)) #goto tower 1
             t.pendown()
@@ -393,7 +386,7 @@ def eraseDisk(nDisk, gameboard, n):
             t.left(diskSize/2)
             t.end_fill()
         elif dPos == 1: # if destination tower = 2 and is empty
-            t.hideturtle()
+            #t.hideturtle()
             t.penup()
             t.goto(originX+t2,originY+20+(g*20)) #goto tower 1
             t.pendown()
@@ -411,7 +404,7 @@ def eraseDisk(nDisk, gameboard, n):
             t.left(diskSize/2)
             t.end_fill()
         elif dPos == 2: # if destination tower = 3 and is empty
-            t.hideturtle()
+            #t.hideturtle()
             t.penup()
             t.goto(originX+t3,originY+20+(g*20)) #goto tower 1
             t.pendown()
@@ -444,34 +437,10 @@ def readCoords(gameboard):
     while i:
         t1 = int(input('Choisir 1ere tour: '))
         t2 = int(input('Choisir 2eme tour: '))
-        if checkInput(t1) == True or checkInput(t2) == True: #or (checkInput(t1) == True and checkInput(t2) == True):
-            t1 = int(input('Choix impossible\nChoisir 1ere tour: '))
-            t2 = int(input('Choisir 2eme tour: '))
-        else:
-            if checkMove(gameboard, t1, t2) == True:
+        if checkMove(gameboard, t1, t2) == True:
                 return t1, t2
-            t1 = int(input('Choix impossible\nChoisir 1ere tour: '))
-            t2 = int(input('Choisir 2eme tour: '))
-
-        #if checkMove(gameboard, t1, t2) == True:
-        #    print('This move is authorized')
-        #else:
-        #    print('This move is not authorized')
-        #if checkVictory(gameboard, a) == True:
-        #    print('Game over!')
-        #    i = False
-        #else:
-        #    print('The game goes on!')
-
-        #if isEmpty(gameboard, t1) == True:
-            #t1 = int(input('1ere tour vide.\nChoisir 1ere tour: '))
-            #t2 = int(input('Choisir 2eme tour: '))
-        #elif t1 > 2 or t1 < 0:
-            #t1 = int(input('Tour 1 entrée non existante.\nChoisir 1ere tour: '))
-            #t2 = int(input('Choisir 2eme tour: '))
-        #elif t2 > 2 or t2 < 0:
-            #t1 = int(input('Tour 2 entrée non existante.\nChoisir 1ere tour: '))
-            #t2 = int(input('Choisir 2eme tour: '))
+        t1 = int(input('Choix impossible\nChoisir 1ere tour: '))
+        t2 = int(input('Choisir 2eme tour: '))
 
 def playTurn(gameboard, n):
     t1, t2 = readCoords(gameboard)
@@ -504,12 +473,12 @@ def gameLoop(gameboard, n):
 #    return moveCount
 
 def playAgain(gameboard, n):
-    playAgain = str(input('Souhaitez vous rejouer? y/n: '))
-    if playAgain == "y":
+    goAgain = str(input('Souhaitez vous rejouer? y/n: '))
+    if goAgain == "y":
         eraseAll(gameboard, n)
         eraseBoard(n)
         main()
-    elif playAgain == "n":
+    elif goAgain == "n":
         print('Thank you for playing!')
         return
 
@@ -548,67 +517,24 @@ def displayScores():
 
 # RECURSIVE SOLVE
 
-def Draw(gameboard, t1, t2, n):
-    topT1 = lastElem(gameboard, t1)
-    topT2 = lastElem(gameboard, t2)
-    eraseDisk(topT1, gameboard, n)
-    #gameboard[t2].append(gameboard[t1].pop())
-    drawDisk(topT2, gameboard, n, R,G,B)
-    #gameboard[t3].append(lastElem(gameboard, t1))
-    #gameboard[t1].pop()
-
-def drawMe(gameboard, t1):
-    drawBoard(a, R1, G1, B1)
-    drawConfig(gameboard, a, R,G,B)
-    startTimeSecs = time.mktime(time.localtime())
-    while (checkVictory(gameboard, n) == False):
-        for i in gameboard:
-            print('Game over!')
-            endTimeSecs = time.mktime(time.localtime())
-        return moveCount, startTimeSecs, endTimeSecs
-        popnDraw(gameboard, nt1, nt2, n)
-
 def goSolveUrself(gameboard, t1, t3, n):
     maxSize = (2**n)-1
-    solvedGame = [] #[[] for i in range(maxSize)]
+    solvedGame = []
     #T1Array = [] for i in range(maxSize)
     #T2Array = [] for i in range(maxSize)
-    #assert len(gameboard[t1]) >= n
     if n == 0:
         return solvedGame
     if n == 1:
-        #Draw(gameboard, t1, t3, n)
         gameboard[t3].append(gameboard[t1].pop())
-        #gameboard[t1].pop()
-        #gameboard[t3].append(gameboard[t1])
-        #lastElem(gameboard, t1)gameboard[].pop()
-        print(t1,'->',t3,':',gameboard)
-        solvedGame.append(tuple([t1,t3]))
-        #Draw(gameboard, lastElem(gameboard, t1), lastElem(gameboard, t3), n)
-    else: # FINALLY FUCKING WORKS
-          # I chose to use extend because appending a new tuple as a list made it very inconvenient to traverse
-        t2 = 3 - t1 - t3 # t1+t3+t2 = 3
-        #topT2 = lastElem(gameboard, t2)
-        #Draw(gameboard, t1, t2, n)
-        solvedGame.extend(goSolveUrself(gameboard, t1, t2, n-1))
-        #Draw(gameboard, t1, t3, n)
-        #Draw(gameboard, t1, t2, n)
-        #solvedGame += goSolveUrself(gameboard, t1, t2, n-1)
-        #goSolveUrself(gameboard, t1, t2, n-1) # move disk from source to aux
-        solvedGame.extend(goSolveUrself(gameboard, t1, t3, 1))
-        #Draw(gameboard, t2, t3, n)
-        #Draw(gameboard, t1, t3, n)
-        #solvedGame += goSolveUrself(gameboard, t1, t3, n-1)
-        #goSolveUrself(gameboard, t1, t3, 1) # move disk from source to target
-        solvedGame.extend(goSolveUrself(gameboard, t2, t3, n-1))
-        #Draw(gameboard, t2, t3, n)
-        #solvedGame += goSolveUrself(gameboard, t2, t3, n-1)
-        #goSolveUrself(gameboard, t2, t3, n-1) # move disk from aux to target.
+        #print(t1,'->',t3,':',gameboard) # used during debugging to check solution & steps in terminal
+        solvedGame.append(tuple([t1,t3])) # this appends a tupl e contained in a list to an already existing list everytime a movement is made
+    else:
+        # I chose to use append because extending a new tuple to a list recursively made it very inconvenient to traverse
+        t2 = 3 - t1 - t3 # t1+t3+t2 = 3 this allows recursion to keep track of which tower to traverse recursively
+        solvedGame.extend(goSolveUrself(gameboard, t1, t2, n-1)) #appends the legal move between A and B by top disk solvedGame array (tower 1 & tower 2)
+        solvedGame.extend(goSolveUrself(gameboard, t1, t3, 1)) #appends the legal move between A and C by bottom disk solvedGame array (tower 1 & tower 3)
+        solvedGame.extend(goSolveUrself(gameboard, t2, t3, n-1)) #appends the legal move between B and C by top disk to solvedGame array (tower 2 & tower 3)
     return solvedGame
-    #else:
-        #eraseDisk(lastElem(gameboard, t2), gameboard, n)
-        #drawDisk(lastElem(gameboard, t3), gameboard, n, R,G,B)
-        #if len(gameboard[t1]) >= 1:
 
 def autoPlayTurn(gameboard, n):
     solvedGame = goSolveUrself(gameboard, 0, 2, n)
@@ -617,107 +543,86 @@ def autoPlayTurn(gameboard, n):
     drawConfig(newGameboard, n, R,G,B)
     for i, j in solvedGame:
         topT1 = lastElem(newGameboard, i)
-        topT2 = lastElem(newGameboard, j)
-        #drawConfig(newGameboard, n, R,G,B)
         if checkMove(newGameboard, i, j) == True:
             eraseDisk(topT1, newGameboard, n) # eraseDisk(lastElem(gameboard, t1), gameboard, n)
             newGameboard[i].pop()
-            drawDisk(topT2, newGameboard, n, R,G,B) #drawDisk(lastElem(gameboard, t2), gameboard, n, R,G,B)
-            newGameboard[j].append(topT1)
-            drawBoard(n, R1, G1, B1)
+            newGameboard[j].append(topT1)# gameboard[j].append(gameboard[i].pop())
+            #drawBoard(n, R1, G1, B1)
             drawConfig(newGameboard, n, R,G,B)
     return newGameboard
 
-def animateVictory(solvedGame, n):
-    gameboard = init(n)
-    drawBoard(n, R1, G1, B1)
-    drawConfig(gameboard, n, R,G,B)
-    print(solvedGame)
-    for i, j in gameboard:
-        topT1 = lastElem(gameboard, i)
-        topT2 = lastElem(gameboard, j)
-        eraseDisk(topT1, gameboard, n) # eraseDisk(lastElem(gameboard, t1), gameboard, n)
-        #gameboard[i].pop()
-        drawDisk(topT2, gameboard, n, R,G,B) #drawDisk(lastElem(gameboard, t2), gameboard, n, R,G,B)
-        #gameboard[t2].append(topT1)
-
-def readSolvedGame(gameboard, t1, t3, n):
-    drawBoard(n, R1, G1, B1)
-    drawConfig(gameboard, n, R,G,B)
+def autoPlayTurnFast(gameboard, n):
+    turtle.tracer(0,0)
     solvedGame = goSolveUrself(gameboard, 0, 2, n)
-    moveCount = 0
     print(solvedGame)
-    #lastElem(gameboard, i)
-    #lastElem(gameboard, j)
-    startTimeSecs = time.mktime(time.localtime())
-    #drawBoard(n, R1, G1, B1)
-    #drawConfig(solvedGame, n, R,G,B)
-    #for i in solvedGame:
-    #    for j in i:
-            #eraseDisk(lastElem(gameboard, j), gameboard, n)
-            #drawDisk(lastElem(gameboard, j), gameboard, n, R,G,B)
-        #topT1 = lastElem(gameboard, i)
-        #topT3 = lastElem(gameboard, j)
-        #print(topT1)
-        #print(j)
-        #print(topT3)
-        #print(j)
-        #if checkMove(gameboard, i, j) == True:
-        #eraseDisk(lastElem(gameboard, t1), gameboard, n)
-
-        #drawDisk(topT3, gameboard, n, R,G,B)
-        #Draw(gameboard, i, j, n)
-        #print(i, j)
-        #for j in i:
-            #eraseDisk(lastElem(gameboard, j), gameboard, n)
-            #drawDisk(lastElem(gameboard, j), gameboard, n, R,G,B)
-            #Draw(gameboard, t1, t2, n)
-    #print('Game over!')
-    #endTimeSecs = time.mktime(time.localtime())
-    #return moveCount, startTimeSecs, endTimeSecs
-
-def recursiveLoop(gameboard, t1, t3, n):
-    goSolveUrself(gameboard, t1, t3, n)
-    moveCount = 0
-    startTimeSecs = time.mktime(time.localtime())
-    while i:
-        if checkVictory(gameboard, n) == True:
-            eraseDisk(lastElem(gameboard, t1), gameboard, n)
-            drawDisk(lastElem(gameboard, t2), gameboard, n, R,G,B)
-            gameboard[nt2].append(gameboard[nt1].pop())
+    print('\nAbove is the solution.\nAmmount of moves required for',n,'disks',':',len(solvedGame))
+    newGameboard = init(n)
+    drawBoard(n, R1, G1, B1)
+    drawConfig(newGameboard, n, R,G,B)
+    turtle.update()
+    for i, j in solvedGame:
+        topT1 = lastElem(newGameboard, i)
+        topT2 = lastElem(newGameboard, j)
+        if checkMove(newGameboard, i, j) == True:
+            eraseDisk(topT1, newGameboard, n) # eraseDisk(lastElem(gameboard, t1), gameboard, n)
+            newGameboard[i].pop()
+            newGameboard[j].append(topT1)# gameboard[j].append(gameboard[i].pop())
             drawBoard(n, R1, G1, B1)
-            drawConfig(gameboard, n, R,G,B)
-    print('Game over!')
-    endTimeSecs = time.mktime(time.localtime())
-    return moveCount, startTimeSecs, endTimeSecs
+            drawConfig(newGameboard, n, R,G,B)
+            turtle.update() #update screen to show changes made by drawing
+    drawBoard(n, R1, G1, B1)
+    drawConfig(newGameboard, n, R,G,B)
+    turtle.update()
+    return newGameboard
 
 ## MAIN FUNCTION
-
 def main():
-    i = True
-    while i:
-        print('\n\n\t\tBienvenue dans les Tours de Hanoi!')
-        #print(time.localtime([secs]))
-        a = int(input('\nCombien de disques? '))
-        gameboard = init(a)
-        b = int(input('Voulez vous jouer, ou regarder jouer? (1/2) '))
-        if b == 1:
-            gameLoop(gameboard, a)
-            save(gameboard, a)
-            playAgain(gameboard, a)
-        elif b == 2:
-            #goSolveUrself(gameboard, 0, 2, a)
-            #goSolveUrself(gameboard, 0, 2, a)
-            #readSolvedGame(gameboard, 0, 2, a)
-            #solvedGame = goSolveUrself(gameboard, 0, 2, a)
+    t = turtle.Turtle()
+    t.hideturtle()
+    t.penup()
+    t.goto(0,300)
+    t.pendown()
+    t.write('Interactive Towers Of Hanoi', align='center', font=('Arial',20,'normal'))
+    screen = turtle.Screen()
+    a = screen.numinput('Welcome to the Towers Of Hanoi','Combien de disques? ')
+    #a = int(input('\nCombien de disques? '))
+    temp = int(a)
+    a = temp
+    while a <= 2:
+        a = screen.numinput('Nombre de disques trop petit. Veuillez reessayer','\nCombien de disques?  ') #getting float through turtle input function 'numinput'
+        temp = int(a) # so I have to convert it to an int and store it temporarily in a var to pass through all my functions
+        a = temp # then move it back to OG var
+    gameboard = init(a)
+    if a <= 5:
+        b = screen.numinput('Voulez vous jouer, ou regarder jouer','1 ou 2?')
+        temp = int(b)
+        b = temp
+    if a > 5:
+        b = screen.numinput('Voulez vous jouer, ou regarder jouer, 1 ou 2?','\n(Si vous choisissez opt. 2, la partie sera jouée plus rapidement)  ')
+        temp = int(b)
+        b = temp
+    while not (b == 1 or b == 2):
+        b = screen.numinput('Choix impossible. Veuillez reessayer','\nVoulez vous jouer, ou regarder jouer? (1/2)')
+        temp = int(b)
+        b = temp
+    if b == 1:
+        gameLoop(gameboard, a)
+        save(gameboard, a)
+        playAgain(gameboard, a)
+    elif b == 2:
+        if a <= 5:
             autoPlayTurn(gameboard, a)
-            #animateVictory(solvedGame, a)
-            #recursiveLoop(gameboard, 0, 2, a)
-            save(gameboard, a)
-            playAgain(gameboard, a)
-            print(gameboard)
-        else:
-            b = int(input('Choix non recconu.\nVoulez vous jouer, ou regarder jouer? (1/2)'))
+        elif a > 5:
+            autoPlayTurnFast(gameboard, a)
+        playAgain(gameboard, a)
+    else:
+        b = screen.numinput('Choix impossible. Veuillez reessayer','\nVoulez vous jouer, ou regarder jouer? (1/2)')
+        temp = int(b)
+        b = temp
 
-main()
-turtle.done()
+buttonClick()
+turtle.onkey(isClicked, "Return")
+turtle.listen()
+#main() # calls main to start program
+turtle.mainloop() #allows tracer(0,0) to render when I use update() to show drawings on screen
+turtle.done() #leaves turtle window open when program is done executing

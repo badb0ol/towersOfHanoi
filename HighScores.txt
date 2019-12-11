@@ -50,3 +50,4 @@ Username: c, Disk Count: 3, Move Count: 0, Time Taken: 0.0
 Username: clem, Disk Count: 3, Move Count: 0, Time Taken: 0.0
 Username: , Disk Count: 3, Move Count: 0, Time Taken: 0.0
 Username: , Disk Count: 3, Move Count: 0, Time Taken: 0.0
+Username: , Disk Count: 6, Move Count: 0, Time Taken: 0.0
