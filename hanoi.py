@@ -1,6 +1,7 @@
 import turtle
 import random
 import time
+import copy
 from datetime import datetime, date
 
 ## IMPORTANT VARIABLES FOR DRAWING
@@ -74,16 +75,29 @@ def buttonClick():
     t.goto(5,6)
     t.pendown()
     t.hideturtle()
-    t.write('Press Enter/Return to Initialize', align='center', font=('Arial',20,'normal'))
-    time.sleep(1)
+    t.write('Game initializing...\n Please Wait', align='center', font=('Arial',20,'normal'))
+    time.sleep(2)
     t.undo()
-
-def isClicked():
-    t = turtle.Turtle()
     t.hideturtle()
-    t.undo()
-    t.reset()
+    t.penup()
+    t.goto(0,300)
+    t.pendown()
+    t.hideturtle()
+    t.write('Welcome to the Towers Of Hanoi!', align='center', font=('Arial',20,'normal'))
+    time.sleep(3)
+    #t.undo()
     main()
+
+def exitButton():
+    t.hideturtle()
+    t.penup()
+    t.goto(5,6)
+    t.pendown()
+    #for i in range(3):
+
+    t = turtle.Turtle()
+    t.onclick(exitClick)
+    turtle.listen()
 
 def firstElem(gameboard, nbTower):# FONCTION DISQUE_SUPERIEUR
     if nbTower >= 0 and nbTower <= 2: # check towerNb is correct
@@ -107,9 +121,6 @@ def diskPosInList(gameboard, nDisk):
                 if nDisk == disk:
                     return diskIndex
     return -1
-
-def checkInput(Alpha):
-    return (Alpha == ' ') or (Alpha == '')
 
 def isEmpty(gameboard, nbTower):
     if nbTower >= 0 and nbTower <= 2:
@@ -433,14 +444,23 @@ def eraseAll(gameboard, n):
 ## MOVE FUNCTIONS
 
 def readCoords(gameboard):
+    screen =turtle.Screen()
     i = True
     while i:
-        t1 = int(input('Choisir 1ere tour: '))
-        t2 = int(input('Choisir 2eme tour: '))
+        t1 = screen.numinput('Choisir 1ere tour: ','Choisir 1ere tour: ')
+        t2 = screen.numinput('Choisir 2eme tour: ','Choisir 2eme tour: ')
+        temp1 = int(t1)
+        temp2 = int(t2)
+        t1 = temp1
+        t2 = temp2
         if checkMove(gameboard, t1, t2) == True:
-                return t1, t2
-        t1 = int(input('Choix impossible\nChoisir 1ere tour: '))
-        t2 = int(input('Choisir 2eme tour: '))
+            return t1, t2
+        t1 = screen.numinput('Choix impossible\nChoisir 1ere tour: ','Choisir 2eme tour: ')
+        t2 = screen.numinput('Choisir 2eme tour: ','Choisir 2eme tour: ')
+        temp1 = int(t1)
+        temp2 = int(t2)
+        t1 = temp1
+        t2 = temp2
 
 def playTurn(gameboard, n):
     t1, t2 = readCoords(gameboard)
@@ -452,7 +472,7 @@ def playTurn(gameboard, n):
         drawDisk(topT2, gameboard, n, R,G,B) #drawDisk(lastElem(gameboard, t2), gameboard, n, R,G,B)
         gameboard[t2].append(topT1)
     else:
-        print('please try again')
+        print('Please try again')
         t1, t2 = readCoords(gameboard)
     return gameboard
 
@@ -468,35 +488,41 @@ def gameLoop(gameboard, n):
         #drawConfig(gameboard, n, R,G,B)
     print('Game over!')
     endTimeSecs = time.mktime(time.localtime())
-    return moveCount, startTimeSecs, endTimeSecs
-#    print('Game over!')
-#    return moveCount
+    save(gameboard, n, endTimeSecs, startTimeSecs, moveCount)
 
 def playAgain(gameboard, n):
-    goAgain = str(input('Souhaitez vous rejouer? y/n: '))
-    if goAgain == "y":
+    screen = turtle.Screen()
+    t = turtle.Turtle()
+    goAgain = screen.textinput('Rejouer?','Souhaitez vous rejouer? (y/n)')
+    if goAgain.lower() == "y":
         eraseAll(gameboard, n)
         eraseBoard(n)
         main()
-    elif goAgain == "n":
+    elif goAgain.lower() == "n":
         print('Thank you for playing!')
-        return
+        turtle.bye()
+    while not (goAgain == 'y' or goAgain == 'n'):
+        goAgain = screen.textinput('Rejouer?','Souhaitez vous rejouer? (y/n)')
 
 ## CANCEL HITS
 
-def lastHit():
-    return 0
+def saveLastHit(gameboard):
+    savedConfigs = {}
+    i = 1
+    while (checkVictory == False):
+        nb = i
+        i += 1
+        savedGame = copy.deepcopy(gameboard)
+        savedConfigs[nb] = savedGame
 
 def cancelLastHit():
     return 0
 
 ## GAME FILES
 
-def save(gameboard, n):
+def save(gameboard, n, endTimeSecs, startTimeSecs, moveCount):
     username = input('Enter your username: ')
     diskCount = n
-    moveCount, startTimeSecs, endTimeSecs = gameLoop(gameboard, n)
-    print(moveCount)
     avgTime = endTimeSecs - startTimeSecs
     scores = [(username, diskCount, moveCount, avgTime)]
     sortByTime(scores)
@@ -510,10 +536,13 @@ def sortByTime(scores):
     return scores
 
 def readScores():
-    return 0
+    with open('HighScores.txt', 'r') as f: # using 'with' automatically closes the file when loop exits
+        print(f)
+    return scores
 
 def displayScores():
-    return 0
+    with open('HighScores.txt', 'r') as f:
+        print(f)
 
 # RECURSIVE SOLVE
 
@@ -537,6 +566,7 @@ def goSolveUrself(gameboard, t1, t3, n):
     return solvedGame
 
 def autoPlayTurn(gameboard, n):
+    turtle.hideturtle()
     solvedGame = goSolveUrself(gameboard, 0, 2, n)
     newGameboard = init(n)
     drawBoard(n, R1, G1, B1)
@@ -547,12 +577,13 @@ def autoPlayTurn(gameboard, n):
             eraseDisk(topT1, newGameboard, n) # eraseDisk(lastElem(gameboard, t1), gameboard, n)
             newGameboard[i].pop()
             newGameboard[j].append(topT1)# gameboard[j].append(gameboard[i].pop())
-            #drawBoard(n, R1, G1, B1)
+            drawBoard(n, R1, G1, B1)
             drawConfig(newGameboard, n, R,G,B)
     return newGameboard
 
 def autoPlayTurnFast(gameboard, n):
     turtle.tracer(0,0)
+    turtle.hideturtle()
     solvedGame = goSolveUrself(gameboard, 0, 2, n)
     print(solvedGame)
     print('\nAbove is the solution.\nAmmount of moves required for',n,'disks',':',len(solvedGame))
@@ -562,7 +593,6 @@ def autoPlayTurnFast(gameboard, n):
     turtle.update()
     for i, j in solvedGame:
         topT1 = lastElem(newGameboard, i)
-        topT2 = lastElem(newGameboard, j)
         if checkMove(newGameboard, i, j) == True:
             eraseDisk(topT1, newGameboard, n) # eraseDisk(lastElem(gameboard, t1), gameboard, n)
             newGameboard[i].pop()
@@ -577,28 +607,22 @@ def autoPlayTurnFast(gameboard, n):
 
 ## MAIN FUNCTION
 def main():
-    t = turtle.Turtle()
-    t.hideturtle()
-    t.penup()
-    t.goto(0,300)
-    t.pendown()
-    t.write('Interactive Towers Of Hanoi', align='center', font=('Arial',20,'normal'))
     screen = turtle.Screen()
-    a = screen.numinput('Welcome to the Towers Of Hanoi','Combien de disques? ')
+    a = screen.numinput('Towers Of Hanoi','Welcome\nCombien de disques? ')
     #a = int(input('\nCombien de disques? '))
     temp = int(a)
     a = temp
-    while a <= 2:
-        a = screen.numinput('Nombre de disques trop petit. Veuillez reessayer','\nCombien de disques?  ') #getting float through turtle input function 'numinput'
+    while a < 2:
+        a = screen.numinput('Nombre de disques trop petit','Veuillez reessayer\nCombien de disques?  ') #getting float through turtle input function 'numinput'
         temp = int(a) # so I have to convert it to an int and store it temporarily in a var to pass through all my functions
         a = temp # then move it back to OG var
     gameboard = init(a)
     if a <= 5:
-        b = screen.numinput('Voulez vous jouer, ou regarder jouer','1 ou 2?')
+        b = screen.numinput('Play or watch?','Voulez vous jouer, ou regarder jouer? (1/2)')
         temp = int(b)
         b = temp
     if a > 5:
-        b = screen.numinput('Voulez vous jouer, ou regarder jouer, 1 ou 2?','\n(Si vous choisissez opt. 2, la partie sera jouée plus rapidement)  ')
+        b = screen.numinput('Play or watch?','Voulez vous jouer, ou regarder jouer? (1/2)\n(Si vous choisissez opt. 2, la partie sera jouée plus rapidement)')
         temp = int(b)
         b = temp
     while not (b == 1 or b == 2):
@@ -612,17 +636,23 @@ def main():
     elif b == 2:
         if a <= 5:
             autoPlayTurn(gameboard, a)
+            playAgain(gameboard, a)
         elif a > 5:
             autoPlayTurnFast(gameboard, a)
-        playAgain(gameboard, a)
+            playAgain(gameboard, a)
     else:
         b = screen.numinput('Choix impossible. Veuillez reessayer','\nVoulez vous jouer, ou regarder jouer? (1/2)')
         temp = int(b)
         b = temp
 
-buttonClick()
-turtle.onkey(isClicked, "Return")
-turtle.listen()
-#main() # calls main to start program
-turtle.mainloop() #allows tracer(0,0) to render when I use update() to show drawings on screen
-turtle.done() #leaves turtle window open when program is done executing
+def startUp():
+    buttonClick()
+    turtle.onclick(isClicked)#, "Return"
+    turtle.listen()
+    #main() # calls main to start program
+    #allows tracer(0,0) to render when I use update() to show drawings on screen
+    #leaves turtle window open when program is done executing
+
+startUp()
+turtle.mainloop()
+turtle.done()
